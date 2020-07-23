@@ -1,2 +1,2 @@
 # bookstore
-Basic .NET Core Web App 
+Simple .NET Core Web App 
