@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BookStore.Models;
+using BookStore.ViewModels;
 
 namespace BookStore.Controllers
 {
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly IPersonRepository personRepository;
@@ -15,15 +17,28 @@ namespace BookStore.Controllers
             this.personRepository = personRepository;
         }
 
-        public string Index()
+        [Route("/")]
+        [Route("~/Home")]
+        [Route("[action]")]
+        public ViewResult Index()
         {
-            return personRepository.GetPerson(1).FirstName;
+            var model = personRepository.GetAllPersons();
+            return View(model);
         }
 
-        public ViewResult Details(int id)
+        [Route("Details/{id}")]
+        public ViewResult Details(int Id)
         {
-            Person model = this.personRepository.GetPerson(id);
-            return View();
+            
+            Person model = this.personRepository.GetPerson(Id);
+
+            HomeDetailsViewModel HomeDetails = new HomeDetailsViewModel()
+            {
+                Person = model,
+                PageTitle = "Detail about person"
+            };
+
+            return View(HomeDetails);
         }
     }
 }

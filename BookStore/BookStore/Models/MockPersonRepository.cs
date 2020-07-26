@@ -22,5 +22,9 @@ namespace BookStore.Models
         public Person GetPerson(int id) {
             return personList.FirstOrDefault(x => x.Id == id);
         }
+
+        public IEnumerable<Person> GetAllPersons() {
+            return personList;
+        }
     }
 }

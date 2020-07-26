@@ -8,5 +8,6 @@ namespace BookStore.Models
     public interface IPersonRepository
     {
         Person GetPerson(int id);
+        IEnumerable<Person> GetAllPersons();
     }
 }
