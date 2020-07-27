@@ -10,5 +10,7 @@ namespace BookStore.Models
         Person GetPerson(int id);
         IEnumerable<Person> GetAllPersons();
         Person Add(Person person);
+        Person Update(Person person);
+        Person Delete(int id);
     }
 }

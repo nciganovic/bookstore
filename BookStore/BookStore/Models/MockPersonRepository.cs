@@ -33,5 +33,27 @@ namespace BookStore.Models
             personList.Add(person);
             return person;
         }
+
+        public Person Update(Person person)
+        {
+            Person personToUpdate = personList.FirstOrDefault(x => x.Id == person.Id);
+            if (personToUpdate != null)
+            {
+                personToUpdate.FirstName = person.FirstName;
+                personToUpdate.LastName = person.LastName;
+            }
+
+            return personToUpdate;
+        }
+
+        public Person Delete(int id)
+        {
+            var personToDelete = personList.FirstOrDefault(x => x.Id == id);
+            if (personToDelete != null) {
+                personList.Remove(personToDelete);
+            }
+            
+            return personToDelete;
+        }
     }
 }
