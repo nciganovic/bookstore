@@ -4,14 +4,36 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <environment include="Development">
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+              integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7S" 
+              crossorigin="anonymous"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              asp-suppress-fallback-integrity="true"
+              >
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    </environment>
+    
 </head>
 <body>
+    @Html.Partial("_Navbar")
+
     <div class="container">
         @RenderBody()
     </div>
 
-    @if(IsSectionDefined("Scripts")) {
+    @if (IsSectionDefined("Scripts"))
+    {
         @RenderSection("Scripts");
     }
 

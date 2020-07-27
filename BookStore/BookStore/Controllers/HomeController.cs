@@ -22,23 +22,10 @@ namespace BookStore.Controllers
         [Route("[action]")]
         public ViewResult Index()
         {
-            var model = personRepository.GetAllPersons();
-            return View(model);
+            ViewBag.Title = "Welcome to Bookstore";
+            return View();
         }
 
-        [Route("Details/{id}")]
-        public ViewResult Details(int Id)
-        {
-            
-            Person model = this.personRepository.GetPerson(Id);
-
-            HomeDetailsViewModel HomeDetails = new HomeDetailsViewModel()
-            {
-                Person = model,
-                PageTitle = "Detail about person"
-            };
-
-            return View(HomeDetails);
-        }
+        
     }
 }

@@ -1,25 +1,2 @@
-﻿@model IEnumerable<Person>
+﻿<h1 class="text-center">@ViewBag.Title</h1>
 
-@{ 
-    ViewBag.Title = "All persons";
-}
-
-<h1 class="text-center">List of all persons</h1>
-
-<table class="table mt-3">
-    <tr>
-        <th>Id</th>
-        <th>First name</th>
-        <th>Last name</th>
-    </tr>
-    @foreach (var person in Model) { 
-        <tr>
-            <th>@person.Id</th>
-            <th>@person.FirstName</th>
-            <th>@person.LastName</th>
-            <th>
-                <a asp-controller="home" asp-action="details" asp-route-id="@person.Id">More info</a>
-            </th>
-        </tr>
-    }
-</table>

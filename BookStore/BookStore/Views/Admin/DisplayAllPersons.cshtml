@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Person>
+
+<h1>@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <td>First name</td>
+        <td>Last name</td>
+    </tr>
+
+    @foreach (var person in Model)
+    {
+        <tr>
+            <td>@person.Id</td>
+            <td>@person.FirstName</td>
+            <td>@person.LastName</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+     }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="Admin" asp-action="CreatePerson"> Create person </a>
+

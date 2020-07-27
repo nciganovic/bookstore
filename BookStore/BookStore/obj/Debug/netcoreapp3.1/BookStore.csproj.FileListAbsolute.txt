@@ -25,7 +25,6 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.TagHelpers.input.cache
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.TagHelpers.output.cache
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.RazorCoreGenerate.cache
-C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\Details.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.RazorTargetAssemblyInfo.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.Views.pdb
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.csproj.CopyComplete
@@ -35,3 +34,7 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\_ViewStart.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\netcoreapp3.1\libman.json
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\DisplayAllPersons.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Navbar.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreatePerson.cshtml.g.cs

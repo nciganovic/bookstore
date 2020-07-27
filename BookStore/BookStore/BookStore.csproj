@@ -10,12 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\css\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Home\Details.cshtml" />
   </ItemGroup>
 
 </Project>

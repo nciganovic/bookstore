@@ -26,5 +26,12 @@ namespace BookStore.Models
         public IEnumerable<Person> GetAllPersons() {
             return personList;
         }
+
+        public Person Add(Person person)
+        {
+            person.Id = personList.Max(x => x.Id) + 1;
+            personList.Add(person);
+            return person;
+        }
     }
 }
