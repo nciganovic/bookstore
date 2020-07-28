@@ -8,7 +8,7 @@ namespace BookStore.Models
     public class SqlPersonRepository : IPersonRepository
     {
         private AppDbContext context;
-        // TODO Finish all implementations
+        
         public SqlPersonRepository(AppDbContext context) {
             this.context = context;
         }
@@ -21,7 +21,14 @@ namespace BookStore.Models
 
         public IEnumerable<Person> GetAllPersons()
         {
-            throw new NotImplementedException();
+            var data = context.Persons.Select(x => new Person
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            }).ToList();
+
+            return data;
         }
 
         public Person Add(Person person)
@@ -33,7 +40,10 @@ namespace BookStore.Models
 
         public Person Update(Person person)
         {
-            throw new NotImplementedException();
+            var editPerson = context.Persons.Attach(person);
+            editPerson.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return person;
         }
 
         public Person Delete(int id)
