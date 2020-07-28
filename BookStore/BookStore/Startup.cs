@@ -31,7 +31,7 @@ namespace BookStore
                 options => options.UseSqlServer(conf.GetConnectionString("BookStoreDbConnection")));
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddSingleton<IPersonRepository, MockPersonRepository>();
+            services.AddScoped<IPersonRepository, SqlPersonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
