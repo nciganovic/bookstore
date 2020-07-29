@@ -1,0 +1,22 @@
+﻿@model AdminCreateAuthorViewModel
+
+<h1 class="text-center">Create new author</h1>
+
+<form asp-controller="Admin" asp-action="CreateAuthor" method="post">
+    <div class="form-group">
+        <label asp-for="Author.ArtistName"></label>
+        <input class="form-control" asp-for="Author.ArtistName" />
+        <span class="text-danger" asp-validation-for="Author.ArtistName"></span>
+    </div>
+    <select class="custom-select" asp-for="Author.PersonId">
+        <option value="0" selected>Select person</option>
+        @foreach (var person in Model.AllPersons) { 
+            <option value="@person.Id">@person.FirstName @person.LastName</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+
+    <div class="text-danger" asp-validation-summary="All">
+
+    </div>
+</form>

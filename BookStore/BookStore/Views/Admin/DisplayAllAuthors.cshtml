@@ -1,0 +1,27 @@
+﻿@model IEnumerable<GetAuthorDto>
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <td>Artist name</td>
+        <td>Person Id</td>
+        <td>Full name</td>
+    </tr>
+
+    @foreach (var author in Model)
+    {
+    <tr>
+        <td>@author.Id</td>
+        <td>@author.ArtistName</td>
+        <td>@author.PersonId</td>
+        <td>@author.FullName</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+     }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="Admin" asp-action="CreateAuthor"> Create author </a>
+
