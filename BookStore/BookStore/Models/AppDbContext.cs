@@ -13,5 +13,14 @@ namespace BookStore.Models
         }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Author> Authors { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Person>()
+                .HasOne(a => a.Author)
+                .WithOne(p => p.Person)
+                .HasForeignKey<Author>(f => f.PersonId);
+        }
     }
 }
