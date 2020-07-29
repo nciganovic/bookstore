@@ -19,6 +19,7 @@ namespace BookStore.Models
         [MaxLength(20, ErrorMessage = "Last name can't be larger then 20 characters.")]
         [Display(Name = "Last name")]
         public string LastName { get; set; }
+        public Author Author { get; set; }
 
     }
 }
