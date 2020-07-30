@@ -6,6 +6,7 @@ using BookStore.Models;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookStore.Controllers
 {
@@ -13,11 +14,13 @@ namespace BookStore.Controllers
     public class AdminController : Controller
     {
         protected IPersonRepository personRepository;
-        protected IAuthorRepository authorRepository; 
+        protected IAuthorRepository authorRepository;
+        protected ICategoryRepository categoryRepository;
 
-        public AdminController(IPersonRepository personRepository, IAuthorRepository authorRepository) {
+        public AdminController(IPersonRepository personRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository) {
             this.personRepository = personRepository;
             this.authorRepository = authorRepository;
+            this.categoryRepository = categoryRepository;
         }
 
         [Route("")]
@@ -98,7 +101,6 @@ namespace BookStore.Controllers
             return viewModel;
         }
 
-        //TODO Get only unique persons
         public List<Person> GetUniquePersons(IEnumerable<Person> personsModel, List<int> UsedPersonIds) {
             var personList = personsModel.ToList();           
             foreach (var person in personsModel) {
@@ -121,6 +123,32 @@ namespace BookStore.Controllers
             return allPersonIds;
         }
 
+        /* Categories Controller */
+        [Route("Categories")]
+        public ViewResult DisplayAllCategories() {
+            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+            ViewBag.Title = "All categories";
+            return View(allCategories);
+        }
+
+        [HttpGet]
+        [Route("Categories/Create")]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Categories/Create")]
+        public IActionResult CreateCategory(Category category)
+        {
+            if (ModelState.IsValid) {
+                categoryRepository.Add(category);
+                return RedirectToAction("DisplayAllCategories");
+            }
+
+            return View();
+        }
 
     }
 }
