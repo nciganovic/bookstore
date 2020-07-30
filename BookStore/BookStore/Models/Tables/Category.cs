@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using BookStore.Models.Tables;
 
 namespace BookStore.Models
 {
@@ -14,5 +15,7 @@ namespace BookStore.Models
         [MaxLength(20, ErrorMessage = "Category name can't be larger then 20 characters.")]
         [Display(Name = "Category name")]
         public string Name { get; set; }
+
+        public List<Book> Books { get; set; }
     }
 }
