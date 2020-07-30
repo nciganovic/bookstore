@@ -33,6 +33,7 @@ namespace BookStore
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
             services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
+            services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

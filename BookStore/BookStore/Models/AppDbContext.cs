@@ -14,6 +14,7 @@ namespace BookStore.Models
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
