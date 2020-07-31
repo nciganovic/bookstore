@@ -1,0 +1,58 @@
+﻿@model EditBookViewModel
+
+<h1 class="text-center">Create new book</h1>
+
+<form asp-controller="Book" asp-action="EditBook" method="post">
+    <div class="form-group">
+        <input type="hidden" asp-for="@Model.Book.Id" value="@Model.Book.Id" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.Title"></label>
+        <input class="form-control" asp-for="@Model.Book.Title" value="@Model.Book.Title" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.Price"></label>
+        <input class="form-control" asp-for="@Model.Book.Price" value="@Model.Book.Price" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Price"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.PageCount"></label>
+        <input class="form-control" asp-for="@Model.Book.PageCount" value="@Model.Book.PageCount" />
+        <span class="text-danger" asp-validation-for="@Model.Book.PageCount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.Amount"></label>
+        <input class="form-control" asp-for="@Model.Book.Amount" value="@Model.Book.Amount" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Amount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.DatePublished"></label>
+        <input class="form-control" asp-for="@Model.Book.DatePublished" value="@Model.Book.DatePublished.ToString("yyyy-MM-ddThh:mm")" />
+        <span class="text-danger" asp-validation-for="@Model.Book.DatePublished"></span>
+    </div>
+    <div>
+        <select class="custom-select" asp-for="@Model.Book.CategoryId">
+            <option value="0">Select category</option>
+            @foreach (var category in Model.AllCategories)
+            {
+                if (category.Id == Model.Book.CategoryId)
+                {
+                    <option selected value="@category.Id">@category.Name</option>
+                }
+                else
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="@Model.Book.CategoryId"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+
+    <div class="text-danger" asp-validation-summary="All">
+
+    </div>
+</form>

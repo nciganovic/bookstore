@@ -23,8 +23,9 @@
     <td>@book.CategoryName</td>
     <td>@book.DatePublished</td>
     <td>@book.Price</td>
-    <td>Edit</td>
-    <td>Delete</td>
+    <td><a asp-controller="Book" asp-action="EditBook" asp-route-id="@book.Id">Edit</a></td>
+    <td><a onclick="return confirm('Do you really want to delete this item ?')"
+   asp-controller="Book" asp-action="DeleteBook" asp-route-id="@book.Id"> Delete </a></td>
 </tr>
      }
 </table>
