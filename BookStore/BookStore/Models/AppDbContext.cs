@@ -18,12 +18,12 @@ namespace BookStore.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>()
                 .HasOne(a => a.Author)
                 .WithOne(p => p.Person)
-                .HasForeignKey<Author>(f => f.PersonId);
-        }
+                .HasForeignKey<Author>(a => a.PersonId);
+        }*/
     }
 }
