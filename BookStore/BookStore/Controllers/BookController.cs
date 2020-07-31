@@ -58,5 +58,48 @@ namespace BookStore.Controllers
 
             return View("Views/Admin/Book/CreateBook.cshtml", viewModel);
         }
+
+        [HttpGet]
+        [Route("Admin/Books/Edit/{id}")]
+        public IActionResult EditBook(int id)
+        {
+            Book getBookById = bookRepository.GetBook(id);
+            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+
+            EditBookViewModel viewModel = new EditBookViewModel
+            {
+                AllCategories = allCategories,
+                Book = getBookById
+            };
+
+            return View("Views/Admin/Book/EditBook.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        [Route("Admin/Books/Edit/{id}")]
+        public IActionResult EditBook(Book book)
+        {
+            if (ModelState.IsValid) {
+                bookRepository.Update(book);
+                return RedirectToAction("DisplayAllBooks");
+            }
+
+            Book getBookById = bookRepository.GetBook(book.Id);
+            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+
+            EditBookViewModel viewModel = new EditBookViewModel
+            {
+                AllCategories = allCategories,
+                Book = getBookById
+            };
+
+            return View("Views/Admin/Book/EditBook.cshtml", viewModel);
+        }
+
+        [Route("Admin/Books/Delete/{id}")]
+        public IActionResult DeleteBook(int id) {
+            bookRepository.Delete(id);
+            return RedirectToAction("DisplayAllBooks");
+        }
     }
 }
