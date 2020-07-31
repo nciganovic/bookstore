@@ -44,5 +44,31 @@ namespace BookStore.Controllers
 
             return View("Views/Admin/Category/CreateCategory.cshtml");
         }
+
+        [HttpGet]
+        [Route("Edit/{id}")]
+        public IActionResult EditCategory(int id) {
+            Category category = categoryRepository.GetCategory(id);
+            return View("Views/Admin/Category/EditCategory.cshtml", category);
+        }
+
+        [HttpPost]
+        [Route("Edit/{id}")]
+        public IActionResult EditCategory(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                categoryRepository.Update(category);
+                return RedirectToAction("DisplayAllCategories");
+            }
+
+            return View("Views/Admin/Category/EditCategory.cshtml", category);
+        }
+        [HttpGet]
+        [Route("Delete/{id}")]
+        public IActionResult DeleteCategory(int id) {
+            categoryRepository.Delete(id);
+            return RedirectToAction("DisplayAllCategories");
+        }
     }
 }
