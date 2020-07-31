@@ -42,5 +42,26 @@ namespace BookStore.Controllers
 
             return View("Views/Admin/Person/CreatePerson.cshtml");
         }
+
+        [HttpGet]
+        [Route("Admin/Persons/Edit/{id}")]
+        public ViewResult EditPerson(int id)
+        {
+            Person person = personRepository.GetPerson(id);
+            return View("Views/Admin/Person/EditPerson.cshtml", person);
+        }
+
+        [HttpPost]
+        [Route("Admin/Persons/Edit/{id}")]
+        public IActionResult EditPerson(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                personRepository.Update(person);
+                return RedirectToAction("DisplayAllPersons");
+            }
+
+            return View("Views/Admin/Person/EditPerson.cshtml", person);
+        }
     }
 }
