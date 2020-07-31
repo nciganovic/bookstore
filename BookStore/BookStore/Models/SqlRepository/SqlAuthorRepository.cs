@@ -22,7 +22,13 @@ namespace BookStore.Models
 
         public Author Delete(int id)
         {
-            throw new NotImplementedException();
+            Author authorToDelete = context.Authors.Find(id);
+            if (authorToDelete != null) {
+                context.Authors.Remove(authorToDelete);
+                context.SaveChanges();
+            }
+
+            return authorToDelete;
         }
 
         public IEnumerable<GetAuthorDto> GetAllAuthors()
@@ -31,7 +37,7 @@ namespace BookStore.Models
             {
                Id = x.Id,
                ArtistName = x.ArtistName,
-               FullName = x.Person.FirstName + x.Person.LastName,
+               FullName = x.Person.FirstName + " " + x.Person.LastName,
                PersonId = x.PersonId
             }).ToList();
 
@@ -40,12 +46,15 @@ namespace BookStore.Models
 
         public Author GetAuthor(int id)
         {
-            throw new NotImplementedException();
+            return context.Authors.Find(id);
         }
 
         public Author Update(Author author)
         {
-            throw new NotImplementedException();
+            var updatedAuthor = context.Authors.Attach(author);
+            updatedAuthor.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
+            return author;
         }
     }
 }
