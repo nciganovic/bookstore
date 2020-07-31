@@ -1,0 +1,47 @@
+﻿@model CreateBookViewModel
+
+<h1 class="text-center">Create new book</h1>
+
+<form asp-controller="Book" asp-action="CreateBook" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Book.Title"></label>
+        <input class="form-control" asp-for="@Model.Book.Title" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Title"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.Price"></label>
+        <input class="form-control" asp-for="@Model.Book.Price" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Price"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.PageCount"></label>
+        <input class="form-control" asp-for="@Model.Book.PageCount" />
+        <span class="text-danger" asp-validation-for="@Model.Book.PageCount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.Amount"></label>
+        <input class="form-control" asp-for="@Model.Book.Amount" />
+        <span class="text-danger" asp-validation-for="@Model.Book.Amount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Book.DatePublished"></label>
+        <input class="form-control" asp-for="@Model.Book.DatePublished" />
+        <span class="text-danger" asp-validation-for="@Model.Book.DatePublished"></span>
+    </div>
+    <div>
+        <select class="custom-select" asp-for="@Model.Book.CategoryId">
+            <option value="0" selected>Select category</option>
+            @foreach (var category in Model.AllCategories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="@Model.Book.CategoryId"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+
+    <div class="text-danger" asp-validation-summary="All">
+
+    </div>
+</form>

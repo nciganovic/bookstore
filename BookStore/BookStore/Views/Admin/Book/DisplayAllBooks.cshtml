@@ -1,0 +1,33 @@
+﻿@model IEnumerable<GetBookDto>
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Page count</td>
+        <td>Amount</td>
+        <td>Category name</td>
+        <td>Date published</td>
+        <td>Price</td>
+    </tr>
+
+    @foreach (var book in Model)
+    {
+<tr>
+    <td>@book.Id</td>
+    <td>@book.Title</td>
+    <td>@book.PageCount</td>
+    <td>@book.Amount</td>
+    <td>@book.CategoryName</td>
+    <td>@book.DatePublished</td>
+    <td>@book.Price</td>
+    <td>Edit</td>
+    <td>Delete</td>
+</tr>
+     }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="Book" asp-action="CreateBook"> Create book </a>
+
