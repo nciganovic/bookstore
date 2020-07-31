@@ -13,8 +13,9 @@
         <tr>
             <td>@category.Id</td>
             <td>@category.Name</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td><a asp-controller="Category" asp-action="EditCategory" asp-route-id="@category.Id">Edit</a></td>
+            <td><a onclick="return confirm('Do you really want to delete this item ?')"
+                    asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@category.Id"> Delete </a></td>
         </tr>
      }
 </table>
