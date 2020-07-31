@@ -7,6 +7,8 @@
         <td>Id</td>
         <td>First name</td>
         <td>Last name</td>
+        <td>Edit</td>
+        <td>Delete</td>
     </tr>
 
     @foreach (var person in Model)
@@ -15,7 +17,7 @@
             <td>@person.Id</td>
             <td>@person.FirstName</td>
             <td>@person.LastName</td>
-            <td>Edit</td>
+            <td><a asp-controller="Person" asp-action="EditPerson" asp-route-id="@person.Id">Edit</a></td>
             <td>Delete</td>
         </tr>
      }
