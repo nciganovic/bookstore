@@ -63,5 +63,13 @@ namespace BookStore.Controllers
 
             return View("Views/Admin/Person/EditPerson.cshtml", person);
         }
+
+        [HttpGet]
+        [Route("Admin/Persons/Delete/{id}")]
+        public IActionResult DeletePerson(int id)
+        {
+            Person person = personRepository.Delete(id);
+            return RedirectToAction("DisplayAllPersons");
+        }
     }
 }
