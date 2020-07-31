@@ -20,9 +20,9 @@ namespace BookStore.Models
             return category;
         }
 
-        public Category Delete(Category category)
+        public Category Delete(int id)
         {
-            var ctgToDelete = context.Categories.Find(category.Id);
+            var ctgToDelete = context.Categories.Find(id);
 
             if (ctgToDelete != null) {
                 context.Categories.Remove(ctgToDelete);
