@@ -11,7 +11,8 @@ using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
-
+using BookStore.Models.InterfaceRepo;
+using BookStore.Models.SqlRepository;
 
 namespace BookStore
 {
@@ -34,6 +35,7 @@ namespace BookStore
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
             services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
+            services.AddScoped<IBookRepository, SqlBookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
