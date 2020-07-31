@@ -18,10 +18,10 @@
             <td>@person.FirstName</td>
             <td>@person.LastName</td>
             <td><a asp-controller="Person" asp-action="EditPerson" asp-route-id="@person.Id">Edit</a></td>
-            <td>Delete</td>
+            <td><a onclick="return confirm('Do you really want to delete this item ?')" 
+                   asp-controller="Person" asp-action="DeletePerson" asp-route-id="@person.Id"> Delete </a></td>
         </tr>
      }
 </table>
 
 <a class="text-light btn btn-success" asp-controller="Person" asp-action="CreatePerson"> Create person </a>
-
