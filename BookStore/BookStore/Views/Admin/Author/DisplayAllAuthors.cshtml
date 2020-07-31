@@ -18,7 +18,8 @@
         <td>@author.PersonId</td>
         <td>@author.FullName</td>
         <td><a asp-controller="Author" asp-action="EditAuthor" asp-route-id="@author.Id">Edit</a></td>
-        <td>Delete</td>
+        <td><a onclick="return confirm('Do you really want to delete this item ?')"
+   asp-controller="Author" asp-action="DeleteAuthor" asp-route-id="@author.Id"> Delete </a></td>
     </tr>
      }
 </table>

@@ -116,5 +116,11 @@ namespace BookStore.Controllers
             CreateAuthorViewModel viewModel = GetAuthorViewModel(CurrentAuthor, CurrentAuthor.PersonId);
             return View("Views/Admin/Author/EditAuthor.cshtml", viewModel);
         }
+
+        [Route("Admin/Authors/Delete/{id}")]
+        public IActionResult DeleteAuthor(int id) {
+            authorRepository.Delete(id);
+            return RedirectToAction("DisplayAllAuthors");
+        }
     }
 }
