@@ -1,4 +1,4 @@
-﻿@model AdminCreateAuthorViewModel
+﻿@model CreateAuthorViewModel
 
 <h1 class="text-center">Create new author</h1>
 
@@ -11,6 +11,7 @@
     <select class="custom-select" asp-for="Author.PersonId">
         <option value="0" selected>Select person</option>
         @foreach (var person in Model.AllPersons) { 
+            
             <option value="@person.Id">@person.FirstName @person.LastName</option>
         }
     </select>
