@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BookStore.Models;
 using BookStore.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Controllers
 {
@@ -30,7 +32,7 @@ namespace BookStore.Controllers
         [Route("Admin/Authors/Create")]
         public IActionResult CreateAuthor()
         {
-            AdminCreateAuthorViewModel viewModel = GetRequestCreateAuthor();
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(new Author(), null);
             return View("Views/Admin/Author/CreateAuthor.cshtml", viewModel);
         }
 
@@ -44,28 +46,32 @@ namespace BookStore.Controllers
                 return RedirectToAction("DisplayAllAuthors");
             }
 
-            AdminCreateAuthorViewModel viewModel = GetRequestCreateAuthor();
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(new Author(), null);
             return View("Views/Admin/Author/CreateAuthor.cshtml", viewModel);
         }
 
-        public AdminCreateAuthorViewModel GetRequestCreateAuthor()
+        public CreateAuthorViewModel GetAuthorViewModel(Author author, int? editPersonId)
         {
-            var personsModel = personRepository.GetAllPersons();
-            List<int> usedIds = UsedPersonIds();
-            List<Person> availablePersons = GetUniquePersons(personsModel, usedIds);
+            var allPersons = personRepository.GetAllPersons();
+            List<int> usedPersonsIds = UsedPersonIds();
+            if (editPersonId != null) {
+                usedPersonsIds.Remove((int)editPersonId);
+            }
+            
+            List<Person> availablePersons = GetAvailablePersons(allPersons, usedPersonsIds);
 
-            AdminCreateAuthorViewModel viewModel = new AdminCreateAuthorViewModel
+            CreateAuthorViewModel viewModel = new CreateAuthorViewModel
             {
                 AllPersons = availablePersons,
-                Author = new Author()
+                Author = author
             };
             return viewModel;
         }
 
-        public List<Person> GetUniquePersons(IEnumerable<Person> personsModel, List<int> UsedPersonIds)
+        public List<Person> GetAvailablePersons(IEnumerable<Person> AllPersons, List<int> UsedPersonIds)
         {
-            var personList = personsModel.ToList();
-            foreach (var person in personsModel)
+            var personList = AllPersons.ToList();
+            foreach (var person in AllPersons)
             {
                 if (UsedPersonIds.Contains(person.Id))
                 {
@@ -87,6 +93,28 @@ namespace BookStore.Controllers
             }
 
             return allPersonIds;
+        }
+        
+        [HttpGet]
+        [Route("Admin/Authors/Edit/{id}")]
+        public IActionResult EditAuthor(int id) {
+            Author CurrentAuthor = authorRepository.GetAuthor(id);
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(CurrentAuthor, CurrentAuthor.PersonId);
+            return View("Views/Admin/Author/EditAuthor.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        [Route("Admin/Authors/Edit/{id}")]
+        public IActionResult EditAuthor(Author author)
+        {
+            if (ModelState.IsValid) {
+                authorRepository.Update(author);
+                return RedirectToAction("DisplayAllAuthors");
+            }
+
+            Author CurrentAuthor = authorRepository.GetAuthor(author.Id);
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(CurrentAuthor, CurrentAuthor.PersonId);
+            return View("Views/Admin/Author/EditAuthor.cshtml", viewModel);
         }
     }
 }
