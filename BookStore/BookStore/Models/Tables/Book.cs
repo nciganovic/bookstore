@@ -22,5 +22,7 @@ namespace BookStore.Models.Tables
         [Range(1, int.MaxValue, ErrorMessage = "Please select item.")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public List<AuthorBook> AuthorBook { get; set; }
     }
 }

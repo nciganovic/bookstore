@@ -36,6 +36,7 @@ namespace BookStore
             services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
+            services.AddScoped<IAuthorBookRepository, SqlAuthorBookRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
