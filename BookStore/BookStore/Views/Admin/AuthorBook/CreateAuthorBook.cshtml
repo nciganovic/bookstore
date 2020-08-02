@@ -1,0 +1,34 @@
+﻿@model AuthorBookViewModel
+
+<h1 class="text-center">Create new author book</h1>
+
+<form asp-controller="AuthorBook" asp-action="CreateAuthorBook" method="post">
+    <div>
+        <select class="custom-select" asp-for="@Model.AuthorBook.AuthorId">
+            <option value="0" selected>Select author</option>
+            @foreach (var author in Model.AllAuthors)
+            {
+                <option value="@author.Id"> @author.FullName </option>
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="@Model.AuthorBook.AuthorId"></span>
+    </div>
+
+    <div class="mt-3">
+        <select class="custom-select" asp-for="@Model.AuthorBook.BookId">
+            <option value="0" selected>Select book</option>
+            @foreach (var book in Model.AllBooks)
+            {
+
+                <option value="@book.Id"> @book.Title </option>
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="@Model.AuthorBook.BookId"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+
+    <div class="text-danger" asp-validation-summary="All">
+
+    </div>
+</form>

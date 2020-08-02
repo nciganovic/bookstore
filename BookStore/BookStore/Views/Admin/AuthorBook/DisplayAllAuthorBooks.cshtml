@@ -1,0 +1,26 @@
+﻿@model IEnumerable<GetAuthorBookDto>
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <td>Artist name</td>
+        <td>Person Id</td>
+    </tr>
+
+    @foreach (var ab in Model)
+    {
+    <tr>
+        <td>@ab.Id</td>
+        <td>@ab.AuthorName</td>
+        <td>@ab.BookTitle</td>
+        <td><a asp-controller="AuthorBook" asp-action="EditAuthorBook" asp-route-id="@ab.Id">Edit</a></td>
+        <td><a onclick="return confirm('Do you really want to delete this item ?')"
+   asp-controller="AuthorBook" asp-action="DeleteAuthorBook" asp-route-id="@ab.Id"> Delete </a></td>
+    </tr>
+     }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="AuthorBook" asp-action="CreateAuthorBook"> Create author </a>
+
