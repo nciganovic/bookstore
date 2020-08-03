@@ -14,5 +14,6 @@ namespace BookStore.Models.InterfaceRepo
         public IEnumerable<GetAuthorBookDto> GetAllAuthorBooks();
         public AuthorBook Delete(int id);
         public AuthorBook GetAuthorBook(int id);
+        public bool IsAuthorBookUnique(AuthorBook authorBook);
     }
 }

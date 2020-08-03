@@ -3,6 +3,7 @@ using BookStore.Models.Dto;
 using BookStore.Models.InterfaceRepo;
 using BookStore.Models.Tables;
 using BookStore.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -80,8 +81,14 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                authorBookRepository.Update(authorBook);
-                return RedirectToAction("DisplayAllAuthorBooks");
+                if (authorBookRepository.IsAuthorBookUnique(authorBook))
+                {
+                    authorBookRepository.Update(authorBook);
+                    return RedirectToAction("DisplayAllAuthorBooks");
+                }
+                else {
+                    ViewBag.Error = "Theese two items are already connected.";
+                }
             }
 
             AuthorBook editAuthorBook = authorBookRepository.GetAuthorBook(authorBook.Id);

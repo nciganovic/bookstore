@@ -51,6 +51,19 @@ namespace BookStore.Models.SqlRepository
             return context.AuthorBooks.Find(id);
         }
 
+        public bool IsAuthorBookUnique(AuthorBook authorBook)
+        {
+            var getAuthorBookByFks = context.AuthorBooks.Where(x => x.AuthorId == authorBook.AuthorId && x.BookId == authorBook.BookId).ToList();
+
+            if (getAuthorBookByFks.Any())
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
         public AuthorBook Update(AuthorBook authorBook)
         {
             var abToUpdate = context.AuthorBooks.Attach(authorBook);
