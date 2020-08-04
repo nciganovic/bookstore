@@ -24,6 +24,7 @@ namespace BookStore.Models.Tables
         public Category Category { get; set; }
 
         public List<AuthorBook> AuthorBook { get; set; }
+
         public string PhotoPath { get; set; }
     }
 }
