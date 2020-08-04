@@ -116,7 +116,7 @@ namespace BookStore.Controllers
             Book getBookById = bookRepository.GetBook(model.Book.Id);
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
 
-            EditBookViewModel viewModel = new EditBookViewModel
+            BookAdminFormViewModel viewModel = new BookAdminFormViewModel
             {
                 AllCategories = allCategories,
                 Book = getBookById
