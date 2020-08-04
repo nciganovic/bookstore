@@ -1,8 +1,8 @@
-﻿@model EditBookViewModel
+﻿@model BookAdminFormViewModel
 
-<h1 class="text-center">Create new book</h1>
+<h1 class="text-center">Edit book</h1>
 
-<form asp-controller="Book" asp-action="EditBook" method="post">
+<form enctype="multipart/form-data" asp-controller="Book" asp-action="EditBook" method="post">
     <div class="form-group">
         <input type="hidden" asp-for="@Model.Book.Id" value="@Model.Book.Id" />
     </div>
@@ -49,6 +49,21 @@
         </select>
         <span class="text-danger" asp-validation-for="@Model.Book.CategoryId"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="@Model.Photo">Change photo</label>
+        <input class="form-control-file" asp-for="@Model.Photo" />
+        <span class="text-danger" asp-validation-for="@Model.Photo"></span>
+    </div>
+
+    @if (Model.Book.PhotoPath != null)
+    {
+        <img src="~/uploads/images/@Model.Book.PhotoPath" alt="@Model.Book.Title" />
+    }
+    else
+    {
+        <img width="200" src="~/images/nobookimg.png" alt="@Model.Book.Title" />
+    }
+
 
     <button type="submit" class="btn btn-success mt-3">Submit</button>
 

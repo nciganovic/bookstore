@@ -1,8 +1,8 @@
-﻿@model CreateBookViewModel
+﻿@model BookAdminFormViewModel
 
 <h1 class="text-center">Create new book</h1>
 
-<form asp-controller="Book" asp-action="CreateBook" method="post">
+<form enctype="multipart/form-data" asp-controller="Book" asp-action="CreateBook" method="post">
     <div class="form-group">
         <label asp-for="@Model.Book.Title"></label>
         <input class="form-control" asp-for="@Model.Book.Title" />
@@ -38,7 +38,11 @@
         </select>
         <span class="text-danger" asp-validation-for="@Model.Book.CategoryId"></span>
     </div>
-
+    <div class="form-group mt-3">
+        <label asp-for="@Model.Photo">Choose File...</label>
+        <input class="form-control-file" asp-for="@Model.Photo" />
+        <span class="text-danger" asp-validation-for="@Model.Photo"></span>
+    </div>
     <button type="submit" class="btn btn-success mt-3">Submit</button>
 
     <div class="text-danger" asp-validation-summary="All">
