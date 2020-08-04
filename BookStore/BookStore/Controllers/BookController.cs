@@ -8,6 +8,9 @@ using BookStore.Models.InterfaceRepo;
 using BookStore.Models;
 using BookStore.ViewModels;
 using BookStore.Models.Dto;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace BookStore.Controllers
 {
@@ -15,10 +18,12 @@ namespace BookStore.Controllers
     {
         private IBookRepository bookRepository;
         private ICategoryRepository categoryRepository;
+        private IHostEnvironment hostEnvironment;
 
-        public BookController(IBookRepository bookRepository, ICategoryRepository categoryRepository) {
+        public BookController(IBookRepository bookRepository, ICategoryRepository categoryRepository, IHostEnvironment hostEnvironment) {
             this.categoryRepository = categoryRepository;
             this.bookRepository = bookRepository;
+            this.hostEnvironment = hostEnvironment;
         }
 
         [Route("Admin/Books")]
@@ -33,7 +38,7 @@ namespace BookStore.Controllers
         public ViewResult CreateBook()
         {
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
-            CreateBookViewModel viewModel = new CreateBookViewModel
+            BookAdminFormViewModel viewModel = new BookAdminFormViewModel
             {
                 AllCategories = allCategories,
                 Book = new Book()
@@ -43,15 +48,27 @@ namespace BookStore.Controllers
 
         [HttpPost]
         [Route("Admin/Books/Create")]
-        public IActionResult CreateBook(Book book)
+        public IActionResult CreateBook(BookAdminFormViewModel model)
         {
             if (ModelState.IsValid) {
-                bookRepository.Add(book);
+
+                string uniqueFileName = null;
+                if (model.Photo != null) {
+                    string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+                model.Book.PhotoPath = uniqueFileName;
+
+                bookRepository.Add(model.Book);
                 return RedirectToAction("DisplayAllBooks");
             }
 
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
-            CreateBookViewModel viewModel = new CreateBookViewModel {
+            BookAdminFormViewModel viewModel = new BookAdminFormViewModel
+            {
                 AllCategories = allCategories,
                 Book = new Book()
             };
@@ -66,7 +83,7 @@ namespace BookStore.Controllers
             Book getBookById = bookRepository.GetBook(id);
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
 
-            EditBookViewModel viewModel = new EditBookViewModel
+            BookAdminFormViewModel viewModel = new BookAdminFormViewModel
             {
                 AllCategories = allCategories,
                 Book = getBookById
@@ -77,14 +94,26 @@ namespace BookStore.Controllers
 
         [HttpPost]
         [Route("Admin/Books/Edit/{id}")]
-        public IActionResult EditBook(Book book)
+        public IActionResult EditBook(BookAdminFormViewModel model)
         {
             if (ModelState.IsValid) {
-                bookRepository.Update(book);
+
+                string uniqueFileName = null;
+                if (model.Photo != null)
+                {
+                    string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+
+                model.Book.PhotoPath = uniqueFileName;
+
+                bookRepository.Update(model.Book);
                 return RedirectToAction("DisplayAllBooks");
             }
 
-            Book getBookById = bookRepository.GetBook(book.Id);
+            Book getBookById = bookRepository.GetBook(model.Book.Id);
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
 
             EditBookViewModel viewModel = new EditBookViewModel
