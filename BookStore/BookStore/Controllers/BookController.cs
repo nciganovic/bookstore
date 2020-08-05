@@ -52,15 +52,7 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid) {
 
-                string uniqueFileName = null;
-                if (model.Photo != null) {
-                    string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-
-                model.Book.PhotoPath = uniqueFileName;
+                model.Book.PhotoPath = ProcessUploadedFile(model.Photo);
 
                 bookRepository.Add(model.Book);
                 return RedirectToAction("DisplayAllBooks");
@@ -98,16 +90,7 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid) {
 
-                string uniqueFileName = null;
-                if (model.Photo != null)
-                {
-                    string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
-
-                model.Book.PhotoPath = uniqueFileName;
+                model.Book.PhotoPath = ProcessUploadedFile(model.Photo); ;
 
                 bookRepository.Update(model.Book);
                 return RedirectToAction("DisplayAllBooks");
@@ -123,6 +106,20 @@ namespace BookStore.Controllers
             };
 
             return View("Views/Admin/Book/EditBook.cshtml", viewModel);
+        }
+
+        public string ProcessUploadedFile(IFormFile photo) {
+            string uniqueFileName = null;
+
+            if (photo != null)
+            {
+                string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
+                string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
+                photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+
+            return uniqueFileName;
         }
 
         [Route("Admin/Books/Delete/{id}")]
