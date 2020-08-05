@@ -89,8 +89,9 @@ namespace BookStore.Controllers
         public IActionResult EditBook(BookAdminFormViewModel model)
         {
             if (ModelState.IsValid) {
-
-                model.Book.PhotoPath = ProcessUploadedFile(model.Photo); ;
+                if (model.Photo != null) {
+                    model.Book.PhotoPath = ProcessUploadedFile(model.Photo);
+                }
 
                 bookRepository.Update(model.Book);
                 return RedirectToAction("DisplayAllBooks");
