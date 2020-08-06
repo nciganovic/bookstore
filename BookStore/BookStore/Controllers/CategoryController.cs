@@ -49,6 +49,12 @@ namespace BookStore.Controllers
         [Route("Edit/{id}")]
         public IActionResult EditCategory(int id) {
             Category category = categoryRepository.GetCategory(id);
+            if (category == null)
+            {
+                ViewBag.Object = "Category";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             return View("Views/Admin/Category/EditCategory.cshtml", category);
         }
 
@@ -56,6 +62,12 @@ namespace BookStore.Controllers
         [Route("Edit/{id}")]
         public IActionResult EditCategory(Category category)
         {
+            if (category == null)
+            {
+                ViewBag.Object = "Category";
+                return View("Views/Home/ObjectNotFound.cshtml", category.Id);
+            }
+
             if (ModelState.IsValid)
             {
                 categoryRepository.Update(category);
@@ -67,8 +79,19 @@ namespace BookStore.Controllers
         [HttpGet]
         [Route("Delete/{id}")]
         public IActionResult DeleteCategory(int id) {
-            categoryRepository.Delete(id);
+            Category category = categoryRepository.GetCategory(id);
+            if (category == null)
+            {
+                ViewBag.Object = "Category";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
+
+            categoryRepository.Delete(((Category)category).Id);
             return RedirectToAction("DisplayAllCategories");
         }
+
+      
+
     }
 }
