@@ -84,3 +84,4 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AuthorBook\DisplayAllAuthorBooks.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AuthorBook\CreateAuthorBook.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AuthorBook\EditAuthorBook.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\ObjectNotFound.cshtml.g.cs
