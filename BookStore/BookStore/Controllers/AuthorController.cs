@@ -97,9 +97,16 @@ namespace BookStore.Controllers
         
         [HttpGet]
         [Route("Admin/Authors/Edit/{id}")]
-        public IActionResult EditAuthor(int id) {
-            Author CurrentAuthor = authorRepository.GetAuthor(id);
-            CreateAuthorViewModel viewModel = GetAuthorViewModel(CurrentAuthor, CurrentAuthor.PersonId);
+        public IActionResult EditAuthor(int id) 
+        {
+            Author currentAuthor = authorRepository.GetAuthor(id);
+            if (currentAuthor == null)
+            {
+                ViewBag.Object = "Author";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(currentAuthor, currentAuthor.PersonId);
             return View("Views/Admin/Author/EditAuthor.cshtml", viewModel);
         }
 
@@ -107,18 +114,32 @@ namespace BookStore.Controllers
         [Route("Admin/Authors/Edit/{id}")]
         public IActionResult EditAuthor(Author author)
         {
+            Author currentAuthor = authorRepository.GetAuthor(author.Id);
+            if (currentAuthor == null)
+            {
+                ViewBag.Object = "Author";
+                return View("Views/Home/ObjectNotFound.cshtml", author.Id);
+            }
+
             if (ModelState.IsValid) {
                 authorRepository.Update(author);
                 return RedirectToAction("DisplayAllAuthors");
             }
 
-            Author CurrentAuthor = authorRepository.GetAuthor(author.Id);
-            CreateAuthorViewModel viewModel = GetAuthorViewModel(CurrentAuthor, CurrentAuthor.PersonId);
+            
+            CreateAuthorViewModel viewModel = GetAuthorViewModel(currentAuthor, currentAuthor.PersonId);
             return View("Views/Admin/Author/EditAuthor.cshtml", viewModel);
         }
 
         [Route("Admin/Authors/Delete/{id}")]
         public IActionResult DeleteAuthor(int id) {
+            Author currentAuthor = authorRepository.GetAuthor(id);
+            if (currentAuthor == null)
+            {
+                ViewBag.Object = "Author";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             authorRepository.Delete(id);
             return RedirectToAction("DisplayAllAuthors");
         }
