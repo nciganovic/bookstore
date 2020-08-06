@@ -48,6 +48,11 @@ namespace BookStore.Controllers
         public ViewResult EditPerson(int id)
         {
             Person person = personRepository.GetPerson(id);
+            if (person == null) {
+                ViewBag.Object = "Person";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             return View("Views/Admin/Person/EditPerson.cshtml", person);
         }
 
@@ -55,6 +60,12 @@ namespace BookStore.Controllers
         [Route("Admin/Persons/Edit/{id}")]
         public IActionResult EditPerson(Person person)
         {
+            if (person == null)
+            {
+                ViewBag.Object = "Person";
+                return View("Views/Home/ObjectNotFound.cshtml", person.Id);
+            }
+
             if (ModelState.IsValid)
             {
                 personRepository.Update(person);
@@ -68,7 +79,14 @@ namespace BookStore.Controllers
         [Route("Admin/Persons/Delete/{id}")]
         public IActionResult DeletePerson(int id)
         {
-            Person person = personRepository.Delete(id);
+            Person person = personRepository.GetPerson(id);
+            if (person == null)
+            {
+                ViewBag.Object = "Person";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
+            personRepository.Delete(id);
             return RedirectToAction("DisplayAllPersons");
         }
     }
