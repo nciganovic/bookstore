@@ -71,6 +71,12 @@ namespace BookStore.Controllers
         public IActionResult EditAuthorBook(int id)
         {
             AuthorBook editAuthorBook = authorBookRepository.GetAuthorBook(id);
+            if (editAuthorBook == null)
+            {
+                ViewBag.Object = "AuthorBook";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             AuthorBookViewModel viewModel = GetAuthorBookViewModel(editAuthorBook);
             return View("Views/Admin/AuthorBook/EditAuthorBook.cshtml", viewModel);
         }
@@ -79,6 +85,13 @@ namespace BookStore.Controllers
         [Route("Admin/AuthorBook/Edit/{id}")]
         public IActionResult EditAuthorBook(AuthorBook authorBook)
         {
+            AuthorBook editAuthorBook = authorBookRepository.GetAuthorBook(authorBook.Id);
+            if (editAuthorBook == null)
+            {
+                ViewBag.Object = "AuthorBook";
+                return View("Views/Home/ObjectNotFound.cshtml", authorBook.Id);
+            }
+
             if (ModelState.IsValid)
             {
                 if (authorBookRepository.IsAuthorBookUnique(authorBook))
@@ -91,7 +104,7 @@ namespace BookStore.Controllers
                 }
             }
 
-            AuthorBook editAuthorBook = authorBookRepository.GetAuthorBook(authorBook.Id);
+            
             AuthorBookViewModel viewModel = GetAuthorBookViewModel(editAuthorBook);
             return View("Views/Admin/AuthorBook/EditAuthorBook.cshtml", viewModel);
         }
@@ -99,6 +112,13 @@ namespace BookStore.Controllers
         [Route("Admin/AuthorBook/Delete/{id}")]
         public IActionResult DeleteAuthorBook(int id)
         {
+            AuthorBook editAuthorBook = authorBookRepository.GetAuthorBook(id);
+            if (editAuthorBook == null)
+            {
+                ViewBag.Object = "AuthorBook";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             authorBookRepository.Delete(id);
             return RedirectToAction("DisplayAllAuthorBooks");
         }
