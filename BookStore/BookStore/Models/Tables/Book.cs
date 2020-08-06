@@ -25,6 +25,6 @@ namespace BookStore.Models.Tables
 
         public List<AuthorBook> AuthorBook { get; set; }
 
-        public string PhotoPath { get; set; }
+        public string PhotoName { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         <input type="hidden" asp-for="@Model.Book.Id" value="@Model.Book.Id" />
     </div>
     <div class="form-group">
-        <input type="hidden" asp-for="@Model.Book.PhotoPath" value="@Model.Book.PhotoPath" />
+        <input type="hidden" asp-for="@Model.Book.PhotoName" value="@Model.Book.PhotoName" />
     </div>
     <div class="form-group">
         <label asp-for="@Model.Book.Title"></label>
@@ -58,9 +58,9 @@
         <span class="text-danger" asp-validation-for="@Model.Photo"></span>
     </div>
 
-    @if (Model.Book.PhotoPath != null)
+    @if (Model.Book.PhotoName != null)
     {
-        <img src="~/uploads/images/@Model.Book.PhotoPath" alt="@Model.Book.Title" />
+        <img src="~/uploads/images/@Model.Book.PhotoName" alt="@Model.Book.Title" />
     }
     else
     {
