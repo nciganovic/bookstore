@@ -11,6 +11,7 @@ using BookStore.Models.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookStore.Controllers
 {
@@ -52,7 +53,7 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid) {
 
-                model.Book.PhotoPath = ProcessUploadedFile(model.Photo);
+                model.Book.PhotoName = ProcessUploadedFile(model.Photo);
 
                 bookRepository.Add(model.Book);
                 return RedirectToAction("DisplayAllBooks");
@@ -90,7 +91,11 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid) {
                 if (model.Photo != null) {
-                    model.Book.PhotoPath = ProcessUploadedFile(model.Photo);
+                    if (model.Book.PhotoName != null) {
+                        DeleteImage(model.Book.PhotoName);
+                    }
+
+                    model.Book.PhotoName = ProcessUploadedFile(model.Photo);
                 }
 
                 bookRepository.Update(model.Book);
@@ -117,7 +122,10 @@ namespace BookStore.Controllers
                 string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
                 string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
-                photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                
+                using (var fileStream = new FileStream(filePath, FileMode.Create)) {
+                    photo.CopyTo(fileStream);
+                } 
             }
 
             return uniqueFileName;
@@ -125,8 +133,19 @@ namespace BookStore.Controllers
 
         [Route("Admin/Books/Delete/{id}")]
         public IActionResult DeleteBook(int id) {
+            Book bookToDelete = bookRepository.GetBook(id);
+            
+            if (bookToDelete.PhotoName != null) {
+                DeleteImage(bookToDelete.PhotoName);
+            }
+            
             bookRepository.Delete(id);
             return RedirectToAction("DisplayAllBooks");
+        }
+
+        public void DeleteImage(string photoName) {
+            string imagePathToDelete = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images", photoName);
+            System.IO.File.Delete(imagePathToDelete);
         }
     }
 }
