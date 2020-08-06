@@ -73,13 +73,19 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Edit/{id}")]
         public IActionResult EditBook(int id)
         {
-            Book getBookById = bookRepository.GetBook(id);
+            Book book = bookRepository.GetBook(id);
             IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+
+            if (book == null)
+            {
+                ViewBag.Object = "Book";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
 
             BookAdminFormViewModel viewModel = new BookAdminFormViewModel
             {
                 AllCategories = allCategories,
-                Book = getBookById
+                Book = book
             };
 
             return View("Views/Admin/Book/EditBook.cshtml", viewModel);
@@ -89,6 +95,15 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Edit/{id}")]
         public IActionResult EditBook(BookAdminFormViewModel model)
         {
+            Book book = bookRepository.GetBook(model.Book.Id);
+            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+
+            if (book == null)
+            {
+                ViewBag.Object = "Book";
+                return View("Views/Home/ObjectNotFound.cshtml", model.Book.Id);
+            }
+
             if (ModelState.IsValid) {
                 if (model.Photo != null) {
                     if (model.Book.PhotoName != null) {
@@ -102,13 +117,10 @@ namespace BookStore.Controllers
                 return RedirectToAction("DisplayAllBooks");
             }
 
-            Book getBookById = bookRepository.GetBook(model.Book.Id);
-            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
-
             BookAdminFormViewModel viewModel = new BookAdminFormViewModel
             {
                 AllCategories = allCategories,
-                Book = getBookById
+                Book = book
             };
 
             return View("Views/Admin/Book/EditBook.cshtml", viewModel);
@@ -134,7 +146,13 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Delete/{id}")]
         public IActionResult DeleteBook(int id) {
             Book bookToDelete = bookRepository.GetBook(id);
-            
+
+            if (bookToDelete == null)
+            {
+                ViewBag.Object = "Book";
+                return View("Views/Home/ObjectNotFound.cshtml", id);
+            }
+
             if (bookToDelete.PhotoName != null) {
                 DeleteImage(bookToDelete.PhotoName);
             }
