@@ -1,4 +1,5 @@
 ﻿using BookStore.Models.Tables;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { 
             
@@ -18,14 +19,6 @@ namespace BookStore.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<AuthorBook> AuthorBooks  { get; set; }
-
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Person>()
-                .HasOne(a => a.Author)
-                .WithOne(p => p.Person)
-                .HasForeignKey<Author>(a => a.PersonId);
-        }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,6 +34,8 @@ namespace BookStore.Models
                 .HasOne(pt => pt.Author)
                 .WithMany(t => t.AuthorBook)
                 .HasForeignKey(pt => pt.AuthorId);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
