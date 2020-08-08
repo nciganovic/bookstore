@@ -55,11 +55,13 @@ namespace BookStore
                 
             }
 
+            app.UseAuthentication();
+
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
             app.UseRouting();
 
-            app.UseAuthentication();
+           
 
             app.UseEndpoints(endpoints =>
             {
