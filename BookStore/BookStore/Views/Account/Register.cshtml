@@ -1,0 +1,46 @@
+﻿@model RegisterViewModel
+
+    <h1 class="text-center">Register</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.person.FirstName"></label>
+                    <input class="form-control" asp-for="@Model.person.FirstName" />
+                    <span class="text-danger" asp-validation-for="@Model.person.FirstName"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.person.LastName"></label>
+                    <input class="form-control" asp-for="@Model.person.LastName" />
+                    <span class="text-danger" asp-validation-for="@Model.person.LastName"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Email"></label>
+                    <input class="form-control" asp-for="@Model.Email" />
+                    <span class="text-danger" asp-validation-for="@Model.Email"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Password"></label>
+                    <input class="form-control" asp-for="@Model.Password" />
+                    <span class="text-danger" asp-validation-for="@Model.Password"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.ConfirmPassword"></label>
+                    <input class="form-control" asp-for="@Model.ConfirmPassword" />
+                    <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">Submit</button>
+
+                <div class="text-danger" asp-validation-summary="All">
+
+                </div>
+            </form>
+        </div>
+
+    </div>
