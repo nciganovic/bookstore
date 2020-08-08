@@ -13,6 +13,7 @@ using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Models.InterfaceRepo;
 using BookStore.Models.SqlRepository;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore
 {
@@ -30,6 +31,8 @@ namespace BookStore
         {
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(conf.GetConnectionString("BookStoreDbConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
@@ -55,6 +58,8 @@ namespace BookStore
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
