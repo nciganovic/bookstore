@@ -61,8 +61,6 @@ namespace BookStore
             app.UseMvcWithDefaultRoute();
             app.UseRouting();
 
-           
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
