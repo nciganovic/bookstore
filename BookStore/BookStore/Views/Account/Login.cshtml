@@ -2,13 +2,17 @@
 
 @{
     ViewBag.Title = "Login";
+    var returnUrl = Context.Request.Query["ReturnUrl"];
 }
+
+    
+
 
 <h1 class="text-center">Login</h1>
 
 <div class="row">
     <div class="col-12">
-        <form asp-controller="Account" asp-action="Login" method="post">
+        <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl = "@returnUrl" >
             <div class="form-group">
                 <label asp-for="@Model.Email"></label>
                 <input class="form-control" asp-for="@Model.Email" />
