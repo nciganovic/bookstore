@@ -7,9 +7,11 @@ using BookStore.Models;
 using BookStore.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore.Controllers
 {
+    [Authorize]
     public class AuthorController : Controller
     {
         private IAuthorRepository authorRepository;

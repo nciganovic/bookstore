@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,7 +65,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +73,13 @@ namespace BookStore.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    if (Url.IsLocalUrl(ReturnUrl) && !String.IsNullOrEmpty(ReturnUrl))
+                    {
+                        return Redirect(ReturnUrl);
+                    }
+                    else {
+                        return RedirectToAction("index", "home");
+                    }
                 }
                 else
                 {
@@ -81,6 +88,19 @@ namespace BookStore.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost][HttpGet]
+        public async Task<IActionResult> IsEmailTaken(string email) {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return Json(true);
+            }
+            else {
+                return Json($"Email {email} is already in use.");
+            }
         }
     }
 }
