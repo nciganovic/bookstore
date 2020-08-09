@@ -1,4 +1,6 @@
 ﻿using BookStore.Models;
+using BookStore.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +15,8 @@ namespace BookStore.ViewModels
 
         [Required]
         [EmailAddress]
+        [Remote(action: "IsEmailTaken", controller: "Account")]
+        [ValidEmailDomain(allowedDomain: "gmail.com", ErrorMessage = "Email must be in domain gmail.com")]
         public string Email { get; set; }
 
         [Required]
