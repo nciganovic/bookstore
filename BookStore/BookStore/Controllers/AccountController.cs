@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Models;
+using BookStore.Models.Tables;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,13 +13,15 @@ namespace BookStore.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signInManager;
+        private UserManager<ApplicationUser> userManager;
+        private SignInManager<ApplicationUser> signInManager;
+        private IPersonRepository personRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IPersonRepository personRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.personRepository = personRepository;
         }
 
         [HttpGet]
@@ -30,10 +34,13 @@ namespace BookStore.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid) {
-                var user = new IdentityUser
+                Person person = personRepository.Add(model.person);
+
+                var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    PersonId = person.Id
                 };
 
                 var result = await userManager.CreateAsync(user, model.Password);

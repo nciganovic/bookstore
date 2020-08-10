@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Models.Tables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,6 @@ namespace BookStore.Models
         [Display(Name = "Last name")]
         public string LastName { get; set; }
         public Author Author { get; set; }
-
+        public ApplicationUser User { get; set; }
     }
 }

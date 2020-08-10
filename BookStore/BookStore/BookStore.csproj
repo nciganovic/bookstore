@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200809233305_remove-pid.cs" />
+    <Compile Remove="Migrations\20200809233305_remove-pid.Designer.cs" />
+    <Compile Remove="Migrations\20200810103946_x.cs" />
+    <Compile Remove="Migrations\20200810103946_x.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\details.cshtml" />
   </ItemGroup>
 
