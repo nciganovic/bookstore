@@ -1,0 +1,26 @@
+﻿@model List<UserRoleViewModel>
+@{
+    ViewBag.Title = "Add or remove user roles";
+}
+
+<h1>Add or remove user roles</h1>
+
+<form method="post" asp-controller="Role" asp-action="EditUserRoles">
+    <input type="hidden" name="RoleId" value="@ViewBag.RoleId" />
+
+    @foreach (var user in Model) {
+    <div class="form-check">
+        
+        @if (user.IsSelected)
+        {
+            <input checked type="checkbox" class="form-check-input" id="@user.UserId">
+        }
+        else { 
+            <input type="checkbox" class="form-check-input" id="@user.UserId">
+        }
+
+        <label class="form-check-label" for="exampleCheck1">@user.Username</label>
+    </div>
+    }
+    <button type="submit" class="btn btn-success">Change</button>
+</form>
