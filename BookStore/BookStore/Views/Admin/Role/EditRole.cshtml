@@ -1,0 +1,42 @@
+﻿@model EditRoleViewModel
+@{
+    ViewBag.Title = "Edit role";
+}
+
+<h1 class="text-center">Edit role</h1>
+
+<form asp-controller="Role" asp-action="EditRole" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.Id"></label>
+        <input disabled class="form-control" asp-for="@Model.Id" value="@Model.Id" />
+        <span class="text-danger" asp-validation-for="@Model.Id"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.RoleName"></label>
+        <input class="form-control" asp-for="@Model.RoleName" value="@Model.RoleName" />
+        <span class="text-danger" asp-validation-for="@Model.RoleName"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+
+    <div class="text-danger" asp-validation-summary="All">
+
+    </div>
+</form>
+
+
+<ul class="list-group">
+    @if (Model.Users.Any())
+    {
+        @foreach (string username in Model.Users)
+        {
+            <li class="list-group-item">@username</li>
+        }
+    }
+    else
+    {
+        <p>This role is not applied to any user.</p>
+    }
+
+</ul>
+

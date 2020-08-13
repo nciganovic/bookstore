@@ -14,7 +14,7 @@
         {
         <tr>
             <td>@role.Name</td>
-            <td>Edit</td>
+            <td><a asp-controller="Role" asp-action="EditRole" asp-route-id="@role.Id"> Edit </a></td>
             <td>Delete</td>
         </tr>
         }
