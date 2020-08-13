@@ -110,8 +110,23 @@ namespace BookStore.Controllers
                 }
 
                 return View("Views/Admin/Role/EditRole.cshtml", viewModel);
-
             }
+        }
+
+        [HttpGet]
+        [Route("Admin/Role/Delete/{id}")]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with id {id} is not found.";
+                return View("Views/Home/NotFound.cshtml");
+            }
+
+            await roleManager.DeleteAsync(role);
+            return RedirectToAction("DisplayAllRoles", "Role");
         }
     }
 }
