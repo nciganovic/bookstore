@@ -1,0 +1,24 @@
+﻿@model IEnumerable<IdentityRole>
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>Role name</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+    @if (Model.Any())
+    {
+        @foreach (var role in Model)
+        {
+        <tr>
+            <td>@role.Name</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+        }
+    }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="Role" asp-action="CreateRole"> Create role </a>
