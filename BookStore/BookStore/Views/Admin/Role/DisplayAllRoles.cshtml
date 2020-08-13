@@ -15,7 +15,8 @@
         <tr>
             <td>@role.Name</td>
             <td><a asp-controller="Role" asp-action="EditRole" asp-route-id="@role.Id"> Edit </a></td>
-            <td>Delete</td>
+            <td><a onclick="return confirm('Do you really want to delete this item ?')" 
+                   asp-controller="Role" asp-action="DeleteRole" asp-route-id="@role.Id"> Delete </a></td>
         </tr>
         }
     }
