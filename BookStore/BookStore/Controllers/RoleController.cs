@@ -128,5 +128,41 @@ namespace BookStore.Controllers
             await roleManager.DeleteAsync(role);
             return RedirectToAction("DisplayAllRoles", "Role");
         }
+
+        [HttpGet]
+        [Route("Admin/Role/RoleUsers/{id}")]
+        public async Task<IActionResult> EditUserInRole(string id) {
+
+            ViewBag.RoleId = id;
+
+            var role = await roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with id {id} is not found.";
+                return View("Views/Home/NotFound.cshtml");
+            }
+
+            List<UserRoleViewModel> model = new List<UserRoleViewModel>();
+
+            foreach (var user in await userManager.Users.ToListAsync()) {
+                UserRoleViewModel userRoleViewModel = new UserRoleViewModel { 
+                    UserId = user.Id,
+                    Username = user.UserName
+                };
+
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userRoleViewModel.IsSelected = true;
+                }
+                else {
+                    userRoleViewModel.IsSelected = false;
+                }
+
+                model.Add(userRoleViewModel);
+            }
+
+            return View("Views/Admin/Role/EditUserRoles.cshtml", model);
+        }
     }
 }
