@@ -1,0 +1,31 @@
+﻿@model IEnumerable<UserViewModel>
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<table class="table">
+    <tr>
+        <td>First name</td>
+        <td>Last name</td>
+        <td>User name</td>
+        <td>Email</td>
+    </tr>
+    @if (Model.Any())
+    {
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.User.UserName</td>
+                <td>@user.User.Email</td>
+                <td><a asp-controller="User" asp-action="EditUser" asp-route-id="@user.User.Id"> Edit </a></td>
+                <td>
+                    <a onclick="return confirm('Do you really want to delete this item ?')"
+                       asp-controller="User" asp-action="DeleteUser" asp-route-id="@user.User.Id"> Delete </a>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<a class="text-light btn btn-success" asp-controller="User" asp-action="CreateUser"> Create user </a>
