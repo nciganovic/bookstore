@@ -26,7 +26,8 @@ namespace BookStore.Controllers
 
         [HttpGet]
         [Route("Admin/Role/Create")]
-        public IActionResult CreateRole() {
+        public IActionResult CreateRole()
+        {
             return View("Views/Admin/Role/CreateRole.cshtml");
         }
 
@@ -34,7 +35,8 @@ namespace BookStore.Controllers
         [Route("Admin/Role/Create")]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 IdentityRole identityRole = new IdentityRole
                 {
                     Name = model.RoleName
@@ -42,11 +44,13 @@ namespace BookStore.Controllers
 
                 IdentityResult result = await roleManager.CreateAsync(identityRole);
 
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     return RedirectToAction("DisplayAllRoles", "Role");
                 }
 
-                foreach (IdentityError error in result.Errors) {
+                foreach (IdentityError error in result.Errors)
+                {
                     ModelState.AddModelError(String.Empty, error.Description);
                 }
             }
@@ -54,7 +58,8 @@ namespace BookStore.Controllers
             return View("Views/Admin/Role/CreateRole.cshtml");
         }
 
-        public IActionResult DisplayAllRoles() {
+        public IActionResult DisplayAllRoles()
+        {
             IEnumerable<IdentityRole> roles = roleManager.Roles.ToList();
             return View("Views/Admin/Role/DisplayAllRoles.cshtml", roles);
         }
@@ -65,7 +70,8 @@ namespace BookStore.Controllers
         {
             var role = await roleManager.FindByIdAsync(id);
 
-            if (role == null) {
+            if (role == null)
+            {
                 ViewBag.ErrorMessage = $"Role with id {id} is not found.";
                 return View("Views/Home/NotFound.cshtml");
             }
@@ -76,9 +82,11 @@ namespace BookStore.Controllers
                 RoleName = role.Name,
             };
 
-            foreach (var user in await userManager.Users.ToListAsync()) {
-                if (await userManager.IsInRoleAsync(user, role.Name)) {
-                    viewModel.Users.Add(user.UserName);      
+            foreach (var user in await userManager.Users.ToListAsync())
+            {
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    viewModel.Users.Add(user.UserName);
                 }
             }
 
@@ -96,11 +104,13 @@ namespace BookStore.Controllers
                 ViewBag.ErrorMessage = $"Role with id {viewModel.Id} is not found.";
                 return View("Views/Home/NotFound.cshtml");
             }
-            else {
+            else
+            {
                 role.Name = viewModel.RoleName;
                 var result = await roleManager.UpdateAsync(role);
 
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     return RedirectToAction("DisplayAllRoles", "Role");
                 }
 
@@ -131,7 +141,8 @@ namespace BookStore.Controllers
 
         [HttpGet]
         [Route("Admin/Role/RoleUsers/{id}")]
-        public async Task<IActionResult> EditUserInRole(string id) {
+        public async Task<IActionResult> EditUserInRole(string id)
+        {
 
             ViewBag.RoleId = id;
 
@@ -145,8 +156,10 @@ namespace BookStore.Controllers
 
             List<UserRoleViewModel> model = new List<UserRoleViewModel>();
 
-            foreach (var user in await userManager.Users.ToListAsync()) {
-                UserRoleViewModel userRoleViewModel = new UserRoleViewModel { 
+            foreach (var user in await userManager.Users.ToListAsync())
+            {
+                UserRoleViewModel userRoleViewModel = new UserRoleViewModel
+                {
                     UserId = user.Id,
                     Username = user.UserName
                 };
@@ -155,7 +168,8 @@ namespace BookStore.Controllers
                 {
                     userRoleViewModel.IsSelected = true;
                 }
-                else {
+                else
+                {
                     userRoleViewModel.IsSelected = false;
                 }
 
@@ -163,6 +177,48 @@ namespace BookStore.Controllers
             }
 
             return View("Views/Admin/Role/EditUserRoles.cshtml", model);
+        }
+
+        [HttpPost]
+        [Route("Admin/Role/RoleUsers/{id}")]
+        public async Task<IActionResult> EditUserInRole(List<UserRoleViewModel> model, string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with id {id} is not found.";
+                return View("Views/Home/NotFound.cshtml");
+            }
+
+            for (int i = 0; i < model.Count(); i++) {
+                var user = await userManager.FindByIdAsync(model[i].UserId);
+
+                IdentityResult result = null;
+
+                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name))) {
+                    result = await userManager.AddToRoleAsync(user, role.Name);
+                }
+                else if (!model[i].IsSelected && (await userManager.IsInRoleAsync(user, role.Name))) {
+                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded) {
+                    if (i < (model.Count - 1)) {
+                        continue;
+                    }
+                    else{
+                        return RedirectToAction("EditRole", new { Id = id });
+                    }
+                }
+
+            }
+
+            return RedirectToAction("EditRole", new { Id = id });
         }
     }
 }
