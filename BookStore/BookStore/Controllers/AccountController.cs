@@ -109,5 +109,11 @@ namespace BookStore.Controllers
                 return Json($"Email {email} is already in use.");
             }
         }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
