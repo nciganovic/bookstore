@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PersonController : Controller
     {
         private IPersonRepository personRepository;

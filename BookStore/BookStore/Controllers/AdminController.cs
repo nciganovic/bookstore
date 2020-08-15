@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BookStore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("Admin")]
     public class AdminController : Controller
     {

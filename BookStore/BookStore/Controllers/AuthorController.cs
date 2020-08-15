@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AuthorController : Controller
     {
         private IAuthorRepository authorRepository;
