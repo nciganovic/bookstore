@@ -110,5 +110,22 @@ namespace BookStore.Controllers
                 return View("Views/Admin/User/EditUser.cshtml", model);
             }
         }
+
+        [HttpPost]
+        [Route("Admin/Users/Delete/{id}")]
+        public async Task<IActionResult> DeleteUser(string id) {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
+                return View("NotFound");
+            }
+
+            await userManager.DeleteAsync(user);
+
+            return RedirectToAction("DisplayAllUsers");
+        }
+
     }
 }
