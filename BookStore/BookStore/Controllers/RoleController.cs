@@ -176,7 +176,7 @@ namespace BookStore.Controllers
                 model.Add(userRoleViewModel);
             }
 
-            return View("Views/Admin/Role/EditUserRoles.cshtml", model);
+            return View("Views/Admin/Role/EditRoleUsers.cshtml", model);
         }
 
         [HttpPost]
