@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BookStore.Models;
 using BookStore.Models.Tables;
@@ -47,6 +45,70 @@ namespace BookStore.Controllers
             IEnumerable<UserViewModel> users = userList;
 
             return View("Views/Admin/User/DisplayAllUsers.cshtml", users);
+        }
+
+        [HttpGet]
+        [Route("Admin/Users/Edit/{id}")]
+        public async Task<IActionResult> EditUser(string id) {
+
+            var user = await  userManager.FindByIdAsync(id);
+
+            if (user == null) {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
+                return View("NotFound");
+            }
+
+
+            var roles = await userManager.GetRolesAsync(user);
+            var claims = await userManager.GetClaimsAsync(user);
+            Person person = personRepository.GetPerson(user.PersonId);
+
+            EditUserViewModel viewModel = new EditUserViewModel
+            {
+                Id = id,
+                Email = user.Email,
+                UserName = user.UserName,
+                Person = person,
+                Roles = roles,
+                Claims = claims.Select(c => c.Value).ToList()
+            };
+
+            return View("Views/Admin/User/EditUser.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        [Route("Admin/Users/Edit/{id}")]
+        public async Task<IActionResult> EditUser(string id, EditUserViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
+                return View("NotFound");
+            }
+            else {
+                if (ModelState.IsValid)
+                {
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    personRepository.Update(model.Person);
+
+                    var result = await userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("DisplayAllUsers");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+
+                return View("Views/Admin/User/EditUser.cshtml", model);
+            }
         }
     }
 }

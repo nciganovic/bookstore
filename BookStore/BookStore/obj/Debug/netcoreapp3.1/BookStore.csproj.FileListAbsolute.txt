@@ -102,3 +102,4 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\User\DisplayAllUsers.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Role\DisplayAllRoles.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\User\EditUser.cshtml.g.cs
