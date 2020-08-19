@@ -166,5 +166,52 @@ namespace BookStore.Controllers
             return View("Views/Admin/User/EditUserRoles.cshtml", model);
         }
 
+        [HttpPost]
+        [Route("Admin/Users/EditUserRoles/{id}")]
+        public async Task<IActionResult> EditUserRoles(List<UserRoleViewModel> model, string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id {id} is not found.";
+                return View("Views/Home/NotFound.cshtml");
+            }
+
+            for (int i = 0; i < model.Count(); i++)
+            {
+                var role = await roleManager.FindByIdAsync(model[i].RoleId);
+
+                IdentityResult result = null;
+
+                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name)))
+                {
+                    result = await userManager.AddToRoleAsync(user, role.Name);
+                }
+                else if (!model[i].IsSelected && (await userManager.IsInRoleAsync(user, role.Name)))
+                {
+                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return RedirectToAction("EditUser", new { Id = id });
+                    }
+                }
+
+            }
+
+            return RedirectToAction("EditUser", new { Id = id });
+        }
     }
 }
