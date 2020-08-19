@@ -41,6 +41,11 @@ namespace BookStore
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
             services.AddScoped<IAuthorBookRepository, SqlAuthorBookRepository>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete role"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

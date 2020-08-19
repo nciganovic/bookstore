@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Models.Tables;
 using BookStore.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -124,6 +126,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "DeleteRolePolicy")]
         [Route("Admin/Role/Delete/{id}")]
         public async Task<IActionResult> DeleteRole(string id)
         {
