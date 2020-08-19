@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Models;
+using BookStore.Models.Static;
 using BookStore.Models.Tables;
 using BookStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Controllers
@@ -31,7 +34,8 @@ namespace BookStore.Controllers
         {
             List<UserViewModel> userList = new List<UserViewModel>();
 
-            foreach(var user in await userManager.Users.ToListAsync()) { // user.Person for some reason returns null
+            foreach (var user in await userManager.Users.ToListAsync())
+            { // user.Person for some reason returns null
                 Person person = personRepository.GetPerson(user.PersonId);
 
                 var viewModel = new UserViewModel
@@ -51,11 +55,13 @@ namespace BookStore.Controllers
 
         [HttpGet]
         [Route("Admin/Users/Edit/{id}")]
-        public async Task<IActionResult> EditUser(string id) {
+        public async Task<IActionResult> EditUser(string id)
+        {
 
-            var user = await  userManager.FindByIdAsync(id);
+            var user = await userManager.FindByIdAsync(id);
 
-            if (user == null) {
+            if (user == null)
+            {
                 ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
                 return View("NotFound");
             }
@@ -89,7 +95,8 @@ namespace BookStore.Controllers
                 ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
                 return View("NotFound");
             }
-            else {
+            else
+            {
                 if (ModelState.IsValid)
                 {
                     user.Email = model.Email;
@@ -115,7 +122,8 @@ namespace BookStore.Controllers
 
         [HttpPost]
         [Route("Admin/Users/Delete/{id}")]
-        public async Task<IActionResult> DeleteUser(string id) {
+        public async Task<IActionResult> DeleteUser(string id)
+        {
             var user = await userManager.FindByIdAsync(id);
 
             if (user == null)
@@ -145,9 +153,10 @@ namespace BookStore.Controllers
 
             List<UserRoleViewModel> model = new List<UserRoleViewModel>();
 
-            foreach (var role in await roleManager.Roles.ToListAsync()) {
-                UserRoleViewModel viewModel = new UserRoleViewModel 
-                { 
+            foreach (var role in await roleManager.Roles.ToListAsync())
+            {
+                UserRoleViewModel viewModel = new UserRoleViewModel
+                {
                     RoleId = role.Id,
                     RoleName = role.Name,
                 };
@@ -156,7 +165,8 @@ namespace BookStore.Controllers
                 {
                     viewModel.IsSelected = true;
                 }
-                else {
+                else
+                {
                     viewModel.IsSelected = false;
                 }
 
@@ -209,6 +219,80 @@ namespace BookStore.Controllers
                     }
                 }
 
+            }
+
+            return RedirectToAction("EditUser", new { Id = id });
+        }
+
+        [HttpGet]
+        [Route("Admin/Users/EditUserClaims/{id}")]
+        public async Task<IActionResult> EditUserClaims(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
+                return View("NotFound");
+            }
+
+            var existingUserClaims = await userManager.GetClaimsAsync(user);
+
+            var model = new UserClaimsViewModel
+            {
+                UserId = id
+            };
+
+            foreach (Claim claim in ClaimsStore.AllClaims)
+            {
+                UserClaim userClaim = new UserClaim
+                {
+                    ClaimType = claim.Type
+                };
+
+                if (existingUserClaims.Any(c => c.Type == claim.Type))
+                {
+                    userClaim.IsSelected = true;
+                }
+
+                model.Claims.Add(userClaim);
+            }
+
+            return View("Views/Admin/User/EditUserClaims.cshtml", model);
+        }
+
+        [HttpPost]
+        [Route("Admin/Users/EditUserClaims/{id}")]
+        public async Task<IActionResult> EditUserClaims(string id, UserClaimsViewModel model)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with id = {id} cannot be found.";
+                return View("NotFound");
+            }
+
+            var claims = await userManager.GetClaimsAsync(user);
+
+            foreach (var claim in claims) {
+                var result = await userManager.RemoveClaimAsync(user, claim);
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", "Cannot remove existing user claims");
+                    return View("Views/Admin/User/EditUserClaims.cshtml", model);
+                }
+            }
+
+            foreach (var claim in model.Claims.Where(c => c.IsSelected).Select(c => new Claim(c.ClaimType, c.ClaimType))) {
+                var addClaim = await userManager.AddClaimAsync(user, claim);
+
+                if (!addClaim.Succeeded)
+                {
+                    ModelState.AddModelError("", "Cannot add selected user claims");
+                    return View("Views/Admin/User/EditUserClaims.cshtml", model);
+                }
             }
 
             return RedirectToAction("EditUser", new { Id = id });

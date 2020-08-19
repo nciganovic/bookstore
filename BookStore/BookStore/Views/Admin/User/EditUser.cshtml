@@ -75,5 +75,5 @@
             <li class="list-group-item">Not any claims yet.</li>
         }
     </ul>
-    <a href="#" class="btn btn-warning mt-3">Change claims</a>
+    <a asp-controller="User" asp-action="EditUserClaims" asp-route-id="@Model.Id" class="btn btn-warning mt-3">Change claims</a>
 </div>
