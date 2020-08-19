@@ -78,7 +78,7 @@ namespace BookStore.Controllers
                 UserName = user.UserName,
                 Person = person,
                 Roles = roles,
-                Claims = claims.Select(c => c.Value).ToList()
+                Claims = claims.Select(c => c.Type + " : " + c.Value).ToList()
             };
 
             return View("Views/Admin/User/EditUser.cshtml", viewModel);
@@ -250,7 +250,7 @@ namespace BookStore.Controllers
                     ClaimType = claim.Type
                 };
 
-                if (existingUserClaims.Any(c => c.Type == claim.Type))
+                if (existingUserClaims.Any(c => c.Type == claim.Type && c.Value == "true"))
                 {
                     userClaim.IsSelected = true;
                 }
@@ -285,7 +285,7 @@ namespace BookStore.Controllers
                 }
             }
 
-            foreach (var claim in model.Claims.Where(c => c.IsSelected).Select(c => new Claim(c.ClaimType, c.ClaimType))) {
+            foreach (var claim in model.Claims.Select(c => new Claim(c.ClaimType, c.IsSelected ? "true" : "false"))) {
                 var addClaim = await userManager.AddClaimAsync(user, claim);
 
                 if (!addClaim.Succeeded)

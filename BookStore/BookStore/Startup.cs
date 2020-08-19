@@ -44,7 +44,7 @@ namespace BookStore
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete role"));
+                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete role", "true"));
             });
         }
 
