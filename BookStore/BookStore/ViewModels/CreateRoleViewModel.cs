@@ -10,7 +10,7 @@ namespace BookStore.ViewModels
     {
         [Required]
         [Display(Name = "Role name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only.")]
+        [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Use letters only.")]
         public string RoleName { get; set; }
     }
 }

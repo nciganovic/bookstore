@@ -53,6 +53,7 @@ namespace BookStore
             });
 
             services.AddSingleton<IAuthorizationHandler, EditOnlyOtherRolesAndClaims>();
+            services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
