@@ -15,6 +15,8 @@ using BookStore.Models.InterfaceRepo;
 using BookStore.Models.SqlRepository;
 using Microsoft.AspNetCore.Identity;
 using BookStore.Models.Tables;
+using BookStore.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore
 {
@@ -45,7 +47,12 @@ namespace BookStore
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete role", "true"));
+                options.AddPolicy("EditRolePolicy", policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement()));
+                options.AddPolicy("CreateRolePolicy", policy => policy.RequireClaim("Create role", "true"));
+
             });
+
+            services.AddSingleton<IAuthorizationHandler, EditOnlyOtherRolesAndClaims>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

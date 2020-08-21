@@ -138,6 +138,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "EditRolePolicy")]
         [Route("Admin/Users/EditUserRoles/{id}")]
         public async Task<IActionResult> EditUserRoles(string id)
         {
