@@ -8,8 +8,10 @@
 <h1 class="text-center">Login</h1>
 
 <div class="row">
-    <div class="col-12">
-        <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl = "@returnUrl" >
+    <div class="col-6">
+        <h2 class="mt-3 mb-3">Local account login</h2>
+
+        <form asp-controller="Account" asp-action="Login" method="post" asp-route-returnurl="@returnUrl">
             <div class="form-group">
                 <label asp-for="@Model.Email"></label>
                 <input class="form-control" asp-for="@Model.Email" />
@@ -33,6 +35,28 @@
 
             </div>
         </form>
+    </div>
+    <div class="col-6">
+        <h2 class="mt-3 mb-3">External logins</h2>
+
+        @{ 
+            if (Model.ExternalLogins.Any())
+            {
+                <form asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div>
+                        @foreach (var provider in Model.ExternalLogins) { 
+                        <button type="submit" class="btn-primary btn" name="provider" value="@provider.Name" title="Login using your @provider.DisplayName account">
+                            @provider.DisplayName
+                        </button>
+                        }
+                    </div>
+                </form>
+            }
+            else { 
+                <p>No external logins configured.</p>
+            }
+        }
+        
     </div>
 
 </div>

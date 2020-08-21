@@ -38,6 +38,12 @@ namespace BookStore
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddAuthentication().AddGoogle(options => {
+                options.ClientId = "863035939771-15akpts434k7cjm0s35g7061qj8qdvan.apps.googleusercontent.com";
+                options.ClientSecret = "x9jvy472kPw1g-_WLvnwcDt9";
+            });
+
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
             services.AddScoped<IAuthorRepository, SqlAuthorRepository>();
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();

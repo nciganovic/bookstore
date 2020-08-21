@@ -8,6 +8,7 @@ using BookStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace BookStore.Controllers
 {
@@ -67,8 +68,15 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login() {
-            return View();
+        public async Task<IActionResult> Login(string returnUrl) 
+        {
+            LoginViewModel viewModel = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -114,6 +122,14 @@ namespace BookStore.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl) 
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
         }
     }
 }
