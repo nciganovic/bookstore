@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BookStore.Models;
 using BookStore.Models.Tables;
@@ -130,6 +132,74 @@ namespace BookStore.Controllers
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null) {
+
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            LoginViewModel loginViewModel = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+
+                return View(loginViewModel);
+            }
+
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null) {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+
+                return View(loginViewModel);
+            }
+
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if (email != null) {
+                    var user = await userManager.FindByEmailAsync(email);
+
+                    Person person = new Person
+                    {
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.Surname)
+                    };
+
+                    Person addPerson = personRepository.Add(person);
+
+                    if (user == null) {
+                        user = new ApplicationUser
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            PersonId = addPerson.Id
+                        };
+
+                        await userManager.CreateAsync(user);
+                    }
+
+                    await userManager.AddLoginAsync(user, info);
+                    await signInManager.SignInAsync(user, isPersistent: false);
+
+                    return LocalRedirect(returnUrl);
+                }
+            }
+
+            ViewBag.ErrorTitle = $"Email claim not recived from: {info.LoginProvider}";
+            ViewBag.ErrorMessage = "Please contact support on Pragim@PragimTech.com";
+
+            return View("Error");
         }
     }
 }
