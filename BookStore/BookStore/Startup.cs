@@ -39,9 +39,14 @@ namespace BookStore
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
-            services.AddAuthentication().AddGoogle(options => {
+            services.AddAuthentication()
+            .AddGoogle(options => {
                 options.ClientId = "863035939771-15akpts434k7cjm0s35g7061qj8qdvan.apps.googleusercontent.com";
                 options.ClientSecret = "x9jvy472kPw1g-_WLvnwcDt9";
+            })
+            .AddFacebook(options => {
+                options.AppSecret = "3effabbfd64f51b2c3f56868c8e9188e";
+                options.AppId = "632297451044441";
             });
 
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
