@@ -277,5 +277,31 @@ namespace BookStore.Controllers
                 return View("Views/Home/Message.cshtml");
             }
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword() {
+            ForgotPasswordViewModel viewModel = new ForgotPasswordViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(viewModel.Email);
+
+                if (user != null && await userManager.IsEmailConfirmedAsync(user))
+                {
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = viewModel.Email, token = token }, Request.Scheme);
+                    logger.Log(LogLevel.Warning, passwordResetLink);
+                    return View("ForgotPasswordConfirmation");
+                }
+                return View("ForgotPasswordConfirmation");
+            }
+
+            return View(viewModel);
+        }
     }
 }

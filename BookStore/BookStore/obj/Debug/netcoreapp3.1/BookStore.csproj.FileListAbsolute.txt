@@ -110,3 +110,5 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.csproj.CoreCompileInputs.cache
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\Message.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPasswordConfirmation.cshtml.g.cs
