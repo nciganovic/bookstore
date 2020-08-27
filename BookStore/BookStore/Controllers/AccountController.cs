@@ -222,6 +222,15 @@ namespace BookStore.Controllers
                         };
 
                         await userManager.CreateAsync(user);
+
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+                        logger.Log(LogLevel.Warning, confirmationLink);
+
+                        ViewBag.Title = "Registration successfull";
+                        ViewBag.Message = "Before you login, you need to confirm your email. To confirm your email, you need to click on the link we sent you.";
+                        return View("Views/Home/Message.cshtml");
                     }
 
                     await userManager.AddLoginAsync(user, info);
