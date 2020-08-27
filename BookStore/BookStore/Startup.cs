@@ -38,7 +38,9 @@ namespace BookStore
             services.AddIdentity<ApplicationUser, IdentityRole>(options => 
             {
                 options.SignIn.RequireConfirmedEmail = true;
-            }).AddEntityFrameworkStores<AppDbContext>();
+            })
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 

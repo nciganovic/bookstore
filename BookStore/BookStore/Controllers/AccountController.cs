@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace BookStore.Controllers
 {
@@ -20,12 +21,17 @@ namespace BookStore.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private IPersonRepository personRepository;
+        private ILogger<AccountController> logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IPersonRepository personRepository)
+        public AccountController(UserManager<ApplicationUser> userManager, 
+                                SignInManager<ApplicationUser> signInManager, 
+                                IPersonRepository personRepository, 
+                                ILogger<AccountController> logger)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.personRepository = personRepository;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -51,8 +57,15 @@ namespace BookStore.Controllers
 
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("index", "home");
+                    var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+                    logger.Log(LogLevel.Warning, confirmationLink);
+
+                    ViewBag.Title = "Registration successfull";
+                    ViewBag.Message = "Before you login, you need to confirm your email. To confirm your email, you need to click on the link we sent you.";
+                    return View("Views/Home/Message.cshtml");
                 }
                 else {
                     foreach (var error in result.Errors) {
@@ -222,6 +235,38 @@ namespace BookStore.Controllers
             ViewBag.ErrorMessage = "Please contact support on Pragim@PragimTech.com";
 
             return View("Error");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token) 
+        {
+            if (userId == null || token == null) {
+                return RedirectToAction("index", "home");
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null) 
+            {
+                ViewBag.ErrorMessage = $"The User ID {userId} is invalid.";
+                return View("NotFound");
+            }
+
+            var result = await userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                ViewBag.Title = "Email confirmed";
+                ViewBag.Message = "Your email is confirmed successfully.";
+                return View("Views/Home/Message.cshtml");
+            }
+            else
+            {
+                ViewBag.Title = "Email not confirmed";
+                ViewBag.Message = "Your email confirmation failed.";
+                return View("Views/Home/Message.cshtml");
+            }
         }
     }
 }

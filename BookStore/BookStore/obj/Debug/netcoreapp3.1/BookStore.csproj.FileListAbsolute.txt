@@ -105,5 +105,8 @@ C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\ne
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Admin\User\EditUserClaims.cshtml.g.cs
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Google.dll
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Facebook.dll
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.csproj.CoreCompileInputs.cache
 C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\BookStore.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\obj\Debug\netcoreapp3.1\Razor\Views\Home\Message.cshtml.g.cs

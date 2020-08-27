@@ -71,6 +71,10 @@
             "NLog": {
               "target": "Package",
               "version": "[4.7.3, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[4.9.3, )"
             }
           },
           "imports": [

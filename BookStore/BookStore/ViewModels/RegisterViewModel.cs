@@ -15,7 +15,7 @@ namespace BookStore.ViewModels
 
         [Required]
         [EmailAddress]
-        [ValidEmailDomain(allowedDomain: "gmail.com", ErrorMessage = "Allowed email domain is gmail.com")]
+        [ValidEmailDomain(allowedDomain: "ict.edu.rs", ErrorMessage = "Allowed email domain is gmail.com")]
         [Remote(action: "IsEmailTaken", controller: "Account")]
         public string Email { get; set; }
 

@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BookStore.Models;
 using BookStore.ViewModels;
+using NLog.Fluent;
+using Microsoft.Extensions.Logging;
+using BookStore.Models.Tables;
 
 namespace BookStore.Controllers
 {
@@ -12,9 +15,11 @@ namespace BookStore.Controllers
     public class HomeController : Controller
     {
         private readonly IPersonRepository personRepository;
+        private ILogger<ApplicationUser> logger;
 
-        public HomeController(IPersonRepository personRepository) {
+        public HomeController(IPersonRepository personRepository, ILogger<ApplicationUser> logger) {
             this.personRepository = personRepository;
+            this.logger = logger;
         }
 
         [Route("/")]

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ngeFSIjeVrYCNHCE3FZIqitbaqx8jk4E0DlUQfC2k9F9kt1DIYEI/2s/gTaGCTAlq7LHM1DzKhXwQuiZXBmgeg==",
+  "dgSpecHash": "RpYvXuv6hGwyedRpzy2NJwnI3PjGA/rUDlhEc4XvZhmO2LDlKnWp+KzEpz2/5pTwUwb145b6HVuU6d4dUfld6Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\nikol\\source\\repos\\BookStore\\bookstore\\BookStore\\BookStore\\BookStore.csproj",
   "expectedPackageFiles": [
@@ -38,6 +38,8 @@
     "C:\\Users\\nikol\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\nikol\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\nikol\\.nuget\\packages\\nlog\\4.7.3\\nlog.4.7.3.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\nlog.extensions.logging\\1.6.4\\nlog.extensions.logging.1.6.4.nupkg.sha512",
+    "C:\\Users\\nikol\\.nuget\\packages\\nlog.web.aspnetcore\\4.9.3\\nlog.web.aspnetcore.4.9.3.nupkg.sha512",
     "C:\\Users\\nikol\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\nikol\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\nikol\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
