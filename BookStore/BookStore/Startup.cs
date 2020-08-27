@@ -35,7 +35,10 @@ namespace BookStore
             services.AddDbContextPool<AppDbContext>(
                 options => options.UseSqlServer(conf.GetConnectionString("BookStoreDbConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => 
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+            }).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -47,8 +50,6 @@ namespace BookStore
             .AddFacebook(options => {
                 options.AppSecret = Environment.GetEnvironmentVariable("bookstore-FacebookAppSecret"); 
                 options.AppId = Environment.GetEnvironmentVariable("bookstore-FacebookAppId"); 
-
-
             });
 
             services.AddScoped<IPersonRepository, SqlPersonRepository>();
