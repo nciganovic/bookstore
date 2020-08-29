@@ -97,15 +97,6 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Edit/{id}")]
         public IActionResult EditBook(BookAdminFormViewModel model)
         {
-            Book book = bookRepository.GetBook(model.Book.Id);
-            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
-
-            if (book == null)
-            {
-                ViewBag.Object = "Book";
-                return View("Views/Home/ObjectNotFound.cshtml", model.Book.Id);
-            }
-
             if (ModelState.IsValid) {
                 if (model.Photo != null) {
                     if (model.Book.PhotoName != null) {
@@ -117,6 +108,15 @@ namespace BookStore.Controllers
 
                 bookRepository.Update(model.Book);
                 return RedirectToAction("DisplayAllBooks");
+            }
+
+            Book book = bookRepository.GetBook(model.Book.Id);
+            IEnumerable<Category> allCategories = categoryRepository.GetAllCategories();
+
+            if (book == null)
+            {
+                ViewBag.Object = "Book";
+                return View("Views/Home/ObjectNotFound.cshtml", model.Book.Id);
             }
 
             BookAdminFormViewModel viewModel = new BookAdminFormViewModel

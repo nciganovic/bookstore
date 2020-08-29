@@ -8,6 +8,10 @@ using BookStore.ViewModels;
 using NLog.Fluent;
 using Microsoft.Extensions.Logging;
 using BookStore.Models.Tables;
+using Microsoft.AspNetCore.DataProtection;
+using BookStore.Security;
+using BookStore.Models.InterfaceRepo;
+using BookStore.Models.Dto;
 
 namespace BookStore.Controllers
 {
@@ -16,10 +20,20 @@ namespace BookStore.Controllers
     {
         private readonly IPersonRepository personRepository;
         private ILogger<ApplicationUser> logger;
+        private IDataProtectionProvider dataProtectionProvider;
+        private IBookRepository bookRepository;
 
-        public HomeController(IPersonRepository personRepository, ILogger<ApplicationUser> logger) {
+        public HomeController(IPersonRepository personRepository, 
+                                ILogger<ApplicationUser> logger, 
+                                IDataProtectionProvider dataProtectionProvider,
+                                IBookRepository bookRepository) 
+        {
             this.personRepository = personRepository;
             this.logger = logger;
+          
+            
+            this.bookRepository = bookRepository;
+           // protector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings)
         }
 
         [Route("/")]
@@ -27,8 +41,8 @@ namespace BookStore.Controllers
         [Route("[action]")]
         public ViewResult Index()
         {
-            ViewBag.Title = "Welcome to Bookstore";
-            return View();
+            IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(12);
+            return View(newestBooks);
         }
 
         

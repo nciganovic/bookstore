@@ -1,2 +1,40 @@
-﻿<h1 class="text-center">@ViewBag.Title</h1>
+﻿@model IEnumerable<GetBookDto>
 
+@{
+    ViewBag.Title = "Belgrade Library";
+}
+
+
+
+<div class="container">
+
+    <h1 class="text-center m-5">Welcome to @ViewBag.Title</h1>
+
+    <div class="row d-flex justify-content-around">
+
+        @foreach (var book in Model)
+        {
+
+            <div class="card col-3 p-0" style="width: 18rem;">
+                <a class="text-decoration-none text-dark" href="#">
+                    @if (book.PhotoName != null)
+                    {
+                        <img class="w-100" src="~/uploads/images/@book.PhotoName" alt="@book.Title" />
+                    }
+                    else
+                    {
+                        <img class="w-100" src="~/images/nobookimg.png" alt="@book.Title" />
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                    </div>
+                </a>
+            </div>
+
+        }
+
+    </div>
+</div>

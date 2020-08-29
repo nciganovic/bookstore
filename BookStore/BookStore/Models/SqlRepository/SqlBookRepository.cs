@@ -34,6 +34,24 @@ namespace BookStore.Models.SqlRepository
             return bookToDelete;
         }
 
+        public IEnumerable<GetBookDto> GetNewestBooks(int count)
+        {
+            var data = context.Books.Select(x => new GetBookDto
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                CategoryName = x.Category.Name,
+                DatePublished = x.DatePublished,
+                PageCount = x.PageCount,
+                Price = x.Price,
+                Title = x.Title,
+                PhotoName = x.PhotoName
+                
+            }).Take(count).OrderByDescending(x => x.DatePublished).ToList();
+
+            return data;
+        }
+
         public IEnumerable<GetBookDto> GetAllBooks()
         {
             var data = context.Books.Select(x => new GetBookDto
@@ -44,7 +62,8 @@ namespace BookStore.Models.SqlRepository
                 DatePublished = x.DatePublished,
                 PageCount = x.PageCount,
                 Price = x.Price,
-                Title = x.Title
+                Title = x.Title,
+                PhotoName = x.PhotoName
             }).ToList();
 
             return data;
