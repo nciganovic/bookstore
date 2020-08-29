@@ -303,5 +303,49 @@ namespace BookStore.Controllers
 
             return View(viewModel);
         }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            if (token == null || email == null) {
+                ModelState.AddModelError(String.Empty, "Invalid password reset token.");
+            }
+
+            ResetPasswordViewModel viewModel = new ResetPasswordViewModel 
+            {
+               Token = token,
+               Email = email
+            };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = await userManager.FindByEmailAsync(viewModel.Email);
+                if (user != null) 
+                {
+                    var result = await userManager.ResetPasswordAsync(user, viewModel.Token, viewModel.Password);
+
+                    if (result.Succeeded)
+                    {
+                        return View("ResetPasswordConfirmation");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(String.Empty, error.Description);
+                    }
+
+                    return View(viewModel);
+                }
+
+                return View("ResetPasswordConfirmation");
+            }
+
+            return View(viewModel);
+        }
     }
 }
