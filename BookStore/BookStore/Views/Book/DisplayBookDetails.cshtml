@@ -1,0 +1,30 @@
+﻿@model DisplayBookDetailsViewModel
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-4">
+            @if (Model.Book.PhotoName != null)
+            {
+                <img class="w-100" src="~/uploads/images/@Model.Book.PhotoName" alt="@Model.Book.Title" />
+            }
+            else
+            {
+                <img class="w-100" src="~/images/nobookimg.png" alt="@Model.Book.Title" />
+            }
+        </div>
+
+        <div class="col-8">
+            <h1>@Model.Book.Title</h1>
+            <ul class="list-group">
+                <li class="list-group-item">Pages: @Model.Book.PageCount</li>
+                <li class="list-group-item">Price: @Model.Book.Price din.</li>
+                <li class="list-group-item">Category: @Model.Category.Name</li>
+            </ul>
+            <h4>Written by:</h4>
+            @foreach (var fullname in Model.Book.AuthorsFullName) 
+            { 
+                <p> @fullname </p>
+            }
+        </div>
+    </div>
+</div>

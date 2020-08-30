@@ -15,5 +15,6 @@ namespace BookStore.Models.InterfaceRepo
         public Book Delete(int id);
         public IEnumerable<GetBookDto> GetAllBooks();
         public IEnumerable<GetBookDto> GetNewestBooks(int count);
+        public GetBookDto GetBookDetails(int id);
     }
 }

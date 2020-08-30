@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
+using BookStore.Security;
 
 namespace BookStore.Controllers
 {
@@ -22,11 +24,18 @@ namespace BookStore.Controllers
         private IBookRepository bookRepository;
         private ICategoryRepository categoryRepository;
         private IHostEnvironment hostEnvironment;
+        private readonly IDataProtector dataProtector;
 
-        public BookController(IBookRepository bookRepository, ICategoryRepository categoryRepository, IHostEnvironment hostEnvironment) {
+        public BookController(  IBookRepository bookRepository, 
+                                ICategoryRepository categoryRepository, 
+                                IHostEnvironment hostEnvironment, 
+                                IDataProtectionProvider dataProtectionProvider,
+                                DataProtectionPurposeStrings dataProtectionPurposeStrings) 
+        {
             this.categoryRepository = categoryRepository;
             this.bookRepository = bookRepository;
             this.hostEnvironment = hostEnvironment;
+            dataProtector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings.EmployeeIdRouteValue);
         }
 
         [Route("Admin/Books")]
@@ -166,6 +175,37 @@ namespace BookStore.Controllers
         public void DeleteImage(string photoName) {
             string imagePathToDelete = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images", photoName);
             System.IO.File.Delete(imagePathToDelete);
+        }
+
+        [Route("Books/{id}")]
+        [AllowAnonymous]
+        public IActionResult DisplayBookDetails(string id) {
+            string decryptedId = dataProtector.Unprotect(id);
+            int bookId = Convert.ToInt32(decryptedId);
+
+            GetBookDto book = bookRepository.GetBookDetails(bookId);
+            
+            if (book == null)
+            {
+                ViewBag.Object = "Book";
+                return View("Views/Home/ObjectNotFound.cshtml", bookId);
+            }
+
+            Category category = categoryRepository.GetCategory(book.CategoryId);
+
+            if (category == null)
+            {
+                ViewBag.Object = "Category";
+                return View("Views/Home/ObjectNotFound.cshtml", bookId);
+            }
+
+            DisplayBookDetailsViewModel viewModel = new DisplayBookDetailsViewModel 
+            { 
+                Book = book,
+                Category = category
+            };
+
+            return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
         }
     }
 }

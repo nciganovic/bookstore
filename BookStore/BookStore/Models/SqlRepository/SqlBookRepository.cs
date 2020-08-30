@@ -74,6 +74,26 @@ namespace BookStore.Models.SqlRepository
             return context.Books.Find(id);
         }
 
+        public GetBookDto GetBookDetails(int id) {
+            var book = context.Books.Where(x => x.Id == id);
+
+            var data = book.Select(x => new GetBookDto
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                CategoryName = x.Category.Name,
+                CategoryId = x.Category.Id,
+                DatePublished = x.DatePublished,
+                PageCount = x.PageCount,
+                Price = x.Price,
+                Title = x.Title,
+                PhotoName = x.PhotoName, 
+                AuthorsFullName = x.AuthorBook.Select(y => y.Author.Person.FirstName + " " + (y.Author.ArtistName ?? String.Empty) + " " +  y.Author.Person.LastName).ToList()
+            }).FirstOrDefault();
+
+            return data;
+        }
+
         public Book Update(Book book)
         {
             var editBook = context.Books.Attach(book);

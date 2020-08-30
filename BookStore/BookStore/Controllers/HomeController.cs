@@ -20,20 +20,19 @@ namespace BookStore.Controllers
     {
         private readonly IPersonRepository personRepository;
         private ILogger<ApplicationUser> logger;
-        private IDataProtectionProvider dataProtectionProvider;
         private IBookRepository bookRepository;
+        private readonly IDataProtector dataProtector;
 
         public HomeController(IPersonRepository personRepository, 
                                 ILogger<ApplicationUser> logger, 
+                                IBookRepository bookRepository,
                                 IDataProtectionProvider dataProtectionProvider,
-                                IBookRepository bookRepository) 
+                                DataProtectionPurposeStrings dataProtectionPurposeStrings) 
         {
             this.personRepository = personRepository;
             this.logger = logger;
-          
-            
             this.bookRepository = bookRepository;
-           // protector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings)
+            dataProtector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings.EmployeeIdRouteValue);
         }
 
         [Route("/")]
@@ -41,7 +40,11 @@ namespace BookStore.Controllers
         [Route("[action]")]
         public ViewResult Index()
         {
-            IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(12);
+            IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(12).Select(x => {
+                x.EncryptedId = dataProtector.Protect(x.Id.ToString());
+                return x;
+            });
+
             return View(newestBooks);
         }
 

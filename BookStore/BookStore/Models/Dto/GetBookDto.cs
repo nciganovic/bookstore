@@ -14,6 +14,9 @@ namespace BookStore.Models.Dto
         public decimal Price { get; set; }
         public DateTime DatePublished { get; set; }
         public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
         public string PhotoName { get; set; }
+        public List<string> AuthorsFullName { get; set; } 
+        public string EncryptedId { get; set; }
     }
 }
