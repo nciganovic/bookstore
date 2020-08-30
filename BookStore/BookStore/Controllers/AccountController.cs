@@ -347,5 +347,47 @@ namespace BookStore.Controllers
 
             return View(viewModel);
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult ChangePassword() 
+        {
+            ChangePasswordViewModel viewModel = new ChangePasswordViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel viewModel)
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null) 
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, viewModel.OldPassword, viewModel.Password);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                else 
+                {
+                    await signInManager.RefreshSignInAsync(user);
+                    ViewBag.Title = "Password changed successfully";
+                    ViewBag.Message = "Your password has been changed successfully.";
+                    return View("Views/Home/Message.cshtml");
+                }
+            }
+
+
+            return View(viewModel);
+        }
     }
 }
