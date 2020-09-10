@@ -39,7 +39,7 @@ namespace BookStore.Models.SqlRepository
         {
             var data = context.AuthorBooks.Select(x => new GetAuthorBookDto {
                 Id = x.Id,
-                AuthorName = x.Author.Person.FirstName + " " + x.Author.ArtistName + " " + x.Author.Person.LastName,
+                AuthorName = x.Author.Person.FirstName +  " " + x.Author.Person.LastName,
                 BookTitle = x.Book.Title
             }).ToList();
 

@@ -88,7 +88,7 @@ namespace BookStore.Models.SqlRepository
                 Price = x.Price,
                 Title = x.Title,
                 PhotoName = x.PhotoName, 
-                AuthorsFullName = x.AuthorBook.Select(y => y.Author.Person.FirstName + " " + (y.Author.ArtistName ?? String.Empty) + " " +  y.Author.Person.LastName).ToList()
+                AuthorsFullName = x.AuthorBook.Select(y => y.Author.Person.FirstName + " "  +  y.Author.Person.LastName).ToList()
             }).FirstOrDefault();
 
             return data;

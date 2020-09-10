@@ -13,7 +13,7 @@
         @foreach (var book in Model)
         {
 
-            <div class="card col-3 p-0" style="width: 18rem;">
+            <div class="card col-3 p-0 ml-2 mr-2 mt-5" style="width: 18rem;">
                 <a class="text-decoration-none text-dark" asp-controller="Book" asp-action="DisplayBookDetails" asp-route-id="@book.EncryptedId">
                     @if (book.PhotoName != null)
                     {
