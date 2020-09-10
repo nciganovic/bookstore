@@ -9,7 +9,7 @@ namespace BookStore.Utilities
 {
     public class ValidEmailDomainAttribute : ValidationAttribute
     {
-        private string allowedDomain;
+        public string allowedDomain;
 
         public ValidEmailDomainAttribute(string allowedDomain)
         {

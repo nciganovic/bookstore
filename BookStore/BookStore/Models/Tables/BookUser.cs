@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace BookStore.Models.Tables
 
         [DisplayFormat(DataFormatString = "{0:MM:dd:yyyy}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
-
+        
         [DisplayFormat(DataFormatString = "{0:MM:dd:yyyy}", ApplyFormatInEditMode = true)]
+        [EndGreaterThenStartDate(otherPropertyName: "StartDate", errorMessage: "Start date must be before end date")]
         public DateTime EndDate { get; set; }
     }
 }

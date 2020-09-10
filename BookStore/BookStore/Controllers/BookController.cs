@@ -28,12 +28,12 @@ namespace BookStore.Controllers
         private readonly IDataProtector dataProtector;
         private UserManager<ApplicationUser> userManager;
 
-        public BookController(  IBookRepository bookRepository, 
-                                ICategoryRepository categoryRepository, 
-                                IHostEnvironment hostEnvironment, 
+        public BookController(IBookRepository bookRepository,
+                                ICategoryRepository categoryRepository,
+                                IHostEnvironment hostEnvironment,
                                 IDataProtectionProvider dataProtectionProvider,
                                 DataProtectionPurposeStrings dataProtectionPurposeStrings,
-                                UserManager<ApplicationUser> userManager) 
+                                UserManager<ApplicationUser> userManager)
         {
             this.categoryRepository = categoryRepository;
             this.bookRepository = bookRepository;
@@ -43,7 +43,8 @@ namespace BookStore.Controllers
         }
 
         [Route("Admin/Books")]
-        public ViewResult DisplayAllBooks() {
+        public ViewResult DisplayAllBooks()
+        {
             IEnumerable<GetBookDto> allBooks = bookRepository.GetAllBooks();
             ViewBag.Title = "All books";
             return View("Views/Admin/Book/DisplayAllBooks.cshtml", allBooks);
@@ -66,7 +67,8 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Create")]
         public IActionResult CreateBook(BookAdminFormViewModel model)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
 
                 model.Book.PhotoName = ProcessUploadedFile(model.Photo);
 
@@ -110,9 +112,12 @@ namespace BookStore.Controllers
         [Route("Admin/Books/Edit/{id}")]
         public IActionResult EditBook(BookAdminFormViewModel model)
         {
-            if (ModelState.IsValid) {
-                if (model.Photo != null) {
-                    if (model.Book.PhotoName != null) {
+            if (ModelState.IsValid)
+            {
+                if (model.Photo != null)
+                {
+                    if (model.Book.PhotoName != null)
+                    {
                         DeleteImage(model.Book.PhotoName);
                     }
 
@@ -141,7 +146,8 @@ namespace BookStore.Controllers
             return View("Views/Admin/Book/EditBook.cshtml", viewModel);
         }
 
-        public string ProcessUploadedFile(IFormFile photo) {
+        public string ProcessUploadedFile(IFormFile photo)
+        {
             string uniqueFileName = null;
 
             if (photo != null)
@@ -149,17 +155,19 @@ namespace BookStore.Controllers
                 string uploadImageFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
                 string filePath = Path.Combine(uploadImageFolder, uniqueFileName);
-                
-                using (var fileStream = new FileStream(filePath, FileMode.Create)) {
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
                     photo.CopyTo(fileStream);
-                } 
+                }
             }
 
             return uniqueFileName;
         }
 
         [Route("Admin/Books/Delete/{id}")]
-        public IActionResult DeleteBook(int id) {
+        public IActionResult DeleteBook(int id)
+        {
             Book bookToDelete = bookRepository.GetBook(id);
 
             if (bookToDelete == null)
@@ -168,27 +176,31 @@ namespace BookStore.Controllers
                 return View("Views/Home/ObjectNotFound.cshtml", id);
             }
 
-            if (bookToDelete.PhotoName != null) {
+            if (bookToDelete.PhotoName != null)
+            {
                 DeleteImage(bookToDelete.PhotoName);
             }
-            
+
             bookRepository.Delete(id);
             return RedirectToAction("DisplayAllBooks");
         }
 
-        public void DeleteImage(string photoName) {
+        public void DeleteImage(string photoName)
+        {
             string imagePathToDelete = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\uploads\\images", photoName);
             System.IO.File.Delete(imagePathToDelete);
         }
 
+        [HttpGet]
         [Route("Books/{id}")]
         [AllowAnonymous]
-        public async  Task<IActionResult> DisplayBookDetails(string id) {
+        public async Task<IActionResult> DisplayBookDetails(string id)
+        {
             string decryptedId = dataProtector.Unprotect(id);
             int bookId = Convert.ToInt32(decryptedId);
 
             GetBookDto book = bookRepository.GetBookDetails(bookId);
-            
+
             if (book == null)
             {
                 ViewBag.Object = "Book";
@@ -215,18 +227,29 @@ namespace BookStore.Controllers
                 var user = await userManager.FindByEmailAsync(User.Identity.Name);
                 bookUser.UserId = user.Id;
             }
-            else {
+            else
+            {
                 bookUser.UserId = "";
             }
-            
-            
 
-            DisplayBookDetailsViewModel viewModel = new DisplayBookDetailsViewModel 
-            { 
+            DisplayBookDetailsViewModel viewModel = new DisplayBookDetailsViewModel
+            {
                 Book = book,
                 Category = category,
                 BookUser = bookUser
             };
+
+            return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        [Route("Books/{id}")]
+        [AllowAnonymous]
+        public IActionResult SetReservation(string id, BookUser bookUser)
+        {
+            if (ModelState.IsValid) { 
+            
+            }
 
             return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
         }
