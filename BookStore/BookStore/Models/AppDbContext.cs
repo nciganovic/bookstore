@@ -19,6 +19,7 @@ namespace BookStore.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<AuthorBook> AuthorBooks  { get; set; }
+        public DbSet<BookUser> BookUser { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -14,17 +14,46 @@
         </div>
 
         <div class="col-8">
-            <h1>@Model.Book.Title</h1>
-            <ul class="list-group">
-                <li class="list-group-item">Pages: @Model.Book.PageCount</li>
-                <li class="list-group-item">Price: @Model.Book.Price din.</li>
-                <li class="list-group-item">Category: @Model.Category.Name</li>
-            </ul>
-            <h4>Written by:</h4>
-            @foreach (var fullname in Model.Book.AuthorsFullName) 
-            { 
-                <p> @fullname </p>
-            }
+            <div>
+                <h1>@Model.Book.Title</h1>
+                <ul class="list-group">
+                    <li class="list-group-item">Pages: @Model.Book.PageCount</li>
+                    <li class="list-group-item">Price: @Model.Book.Price din.</li>
+                    <li class="list-group-item">Category: @Model.Category.Name</li>
+                </ul>
+                <h4>Written by:</h4>
+                @foreach (var fullname in Model.Book.AuthorsFullName)
+                {
+                    <p> @fullname </p>
+                }
+            </div>
+            <div class="mt-3">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <h2 class="text-center">Reservation</h2>
+                    <form method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" asp-for="@Model.BookUser.BookId" />
+                            <input type="hidden" class="form-control" asp-for="@Model.BookUser.UserId" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.BookUser.StartDate"></label>
+                            <input class="form-control" asp-for="@Model.BookUser.StartDate" value="@Model.BookUser.StartDate.ToString("yyyy-MM-ddThh:mm")" />
+                            <span class="text-danger" asp-validation-for="@Model.BookUser.StartDate"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.BookUser.EndDate"></label>
+                            <input class="form-control" asp-for="@Model.BookUser.EndDate" value="@Model.BookUser.StartDate.ToString("yyyy-MM-ddThh:mm")" />
+                            <span class="text-danger" asp-validation-for="@Model.BookUser.EndDate"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success">Reserve book</button>
+                    </form>
+                }
+                else { 
+                    <p>You need to login in order to reserve a book.</p>
+                }
+
+            </div>
         </div>
     </div>
 </div>

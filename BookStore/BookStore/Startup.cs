@@ -59,6 +59,7 @@ namespace BookStore
             services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
             services.AddScoped<IBookRepository, SqlBookRepository>();
             services.AddScoped<IAuthorBookRepository, SqlAuthorBookRepository>();
+            services.AddScoped<IBookUserRepository, SqlBookUserRepository>();
 
             services.AddAuthorization(options =>
             {

@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using BookStore.Security;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Controllers
 {
@@ -25,17 +26,20 @@ namespace BookStore.Controllers
         private ICategoryRepository categoryRepository;
         private IHostEnvironment hostEnvironment;
         private readonly IDataProtector dataProtector;
+        private UserManager<ApplicationUser> userManager;
 
         public BookController(  IBookRepository bookRepository, 
                                 ICategoryRepository categoryRepository, 
                                 IHostEnvironment hostEnvironment, 
                                 IDataProtectionProvider dataProtectionProvider,
-                                DataProtectionPurposeStrings dataProtectionPurposeStrings) 
+                                DataProtectionPurposeStrings dataProtectionPurposeStrings,
+                                UserManager<ApplicationUser> userManager) 
         {
             this.categoryRepository = categoryRepository;
             this.bookRepository = bookRepository;
             this.hostEnvironment = hostEnvironment;
             dataProtector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings.EmployeeIdRouteValue);
+            this.userManager = userManager;
         }
 
         [Route("Admin/Books")]
@@ -179,7 +183,7 @@ namespace BookStore.Controllers
 
         [Route("Books/{id}")]
         [AllowAnonymous]
-        public IActionResult DisplayBookDetails(string id) {
+        public async  Task<IActionResult> DisplayBookDetails(string id) {
             string decryptedId = dataProtector.Unprotect(id);
             int bookId = Convert.ToInt32(decryptedId);
 
@@ -199,10 +203,29 @@ namespace BookStore.Controllers
                 return View("Views/Home/ObjectNotFound.cshtml", bookId);
             }
 
+            BookUser bookUser = new BookUser
+            {
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BookId = book.Id
+            };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.FindByEmailAsync(User.Identity.Name);
+                bookUser.UserId = user.Id;
+            }
+            else {
+                bookUser.UserId = "";
+            }
+            
+            
+
             DisplayBookDetailsViewModel viewModel = new DisplayBookDetailsViewModel 
             { 
                 Book = book,
-                Category = category
+                Category = category,
+                BookUser = bookUser
             };
 
             return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
