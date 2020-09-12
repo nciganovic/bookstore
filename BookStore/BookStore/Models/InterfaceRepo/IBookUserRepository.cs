@@ -9,5 +9,6 @@ namespace BookStore.Models.InterfaceRepo
     public interface IBookUserRepository
     {
         public BookUser Add(BookUser bookUser);
+        public BookUser Find(int bookId, string userId);
     }
 }

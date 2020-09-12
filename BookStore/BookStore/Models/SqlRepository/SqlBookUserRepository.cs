@@ -21,5 +21,20 @@ namespace BookStore.Models.SqlRepository
             context.SaveChanges();
             return bookUser;
         }
+
+        public BookUser Find(int bookId, string userId)
+        {
+            var book = context.BookUser.Where(x => x.BookId == bookId && x.UserId == userId && x.EndDate > DateTime.Now);
+
+            var data = book.Select(x => new BookUser
+            {
+                Id = x.Id,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                UserId = x.UserId
+            }).FirstOrDefault();
+
+            return data;
+        }
     }
 }
