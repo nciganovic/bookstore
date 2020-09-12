@@ -1,4 +1,5 @@
-﻿using BookStore.Models.InterfaceRepo;
+﻿using BookStore.Models.Dto;
+using BookStore.Models.InterfaceRepo;
 using BookStore.Models.Tables;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,23 @@ namespace BookStore.Models.SqlRepository
                 EndDate = x.EndDate,
                 UserId = x.UserId
             }).FirstOrDefault();
+
+            return data;
+        }
+
+        public IEnumerable<GetBookUserDto> Find(string userId)
+        {
+            var book = context.BookUser.Where(x => x.UserId == userId);
+
+            var data = book.Select(x => new GetBookUserDto
+            {
+                Id = x.Id,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                UserId = x.UserId,
+                BookId = x.BookId,
+                BookName = x.Book.Title
+            }).ToList();
 
             return data;
         }

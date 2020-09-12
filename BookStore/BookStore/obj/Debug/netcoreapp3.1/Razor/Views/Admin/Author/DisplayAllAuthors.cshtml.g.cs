@@ -47,8 +47,15 @@ using BookStore.Models.Tables;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\nikol\source\repos\BookStore\bookstore\BookStore\BookStore\Views\_ViewImports.cshtml"
+using System.Security.Principal;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d8dae5787b344036a9a5dee13bec615fd5dbd87b", @"/Views/Admin/Author/DisplayAllAuthors.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dcc7dbee78c2168c5e0629e8e511d8d741e8fa86", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3d54e9df42473a8c7a08e0fdeb2f6191e235954d", @"/Views/_ViewImports.cshtml")]
     public class Views_Admin_Author_DisplayAllAuthors : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<GetAuthorDto>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "Author", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -131,7 +138,7 @@ using BookStore.Models.Tables;
 #line hidden
 #nullable disable
             WriteLiteral("</td>\r\n        <td>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b7713", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b7921", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -164,7 +171,7 @@ using BookStore.Models.Tables;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("</td>\r\n        <td>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b10143", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b10351", async() => {
                 WriteLiteral(" Delete ");
             }
             );
@@ -206,7 +213,7 @@ using BookStore.Models.Tables;
 #line hidden
 #nullable disable
             WriteLiteral("</table>\r\n\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b12900", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8dae5787b344036a9a5dee13bec615fd5dbd87b13108", async() => {
                 WriteLiteral(" Create author ");
             }
             );

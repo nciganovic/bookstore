@@ -15,6 +15,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="BookUser" asp-action="DisplayAllReservations" asp-route-username="@User.Identity.Name">My reservations</a>
+                </li>
+            }
+            else if (signInManager.IsSignedIn(User))
+            {
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="BookUser" asp-action="DisplayAllReservations" asp-route-id="@User.Identity.Name">My reservations</a>
+                </li>
             }
         </ul>
         <ul class="navbar-nav ml-auto">

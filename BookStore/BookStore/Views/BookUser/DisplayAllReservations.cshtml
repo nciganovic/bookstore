@@ -1,0 +1,30 @@
+﻿@model DisplayAllReservationsViewModel
+@{ 
+    ViewBag.Title = "Reservations";
+}
+
+
+<div class="container mt-3">
+    <div class="row">
+        <h1>Your reservations</h1>
+        <div class="col-12">
+            <h2>Current reservations</h2>
+            <ul>
+                @foreach (var reservation in @Model.CurrentReservations)
+                {
+                    <li> @reservation.BookName </li>
+                }
+            </ul>
+        </div>
+
+        <div class="col-12">
+            <h2>Past reservations</h2>
+            <ul>
+                @foreach (var reservation in @Model.PastReservations)
+                {
+                    <li> @reservation.BookName </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

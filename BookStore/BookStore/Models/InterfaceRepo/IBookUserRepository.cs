@@ -1,4 +1,5 @@
-﻿using BookStore.Models.Tables;
+﻿using BookStore.Models.Dto;
+using BookStore.Models.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BookStore.Models.InterfaceRepo
     {
         public BookUser Add(BookUser bookUser);
         public BookUser Find(int bookId, string userId);
+        public IEnumerable<GetBookUserDto> Find(string userId);
     }
 }
