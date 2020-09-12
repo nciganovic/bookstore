@@ -25,10 +25,12 @@ namespace BookStore.Controllers
         private IBookRepository bookRepository;
         private ICategoryRepository categoryRepository;
         private IHostEnvironment hostEnvironment;
+        private IBookUserRepository bookUserRepository;
         private readonly IDataProtector dataProtector;
         private UserManager<ApplicationUser> userManager;
 
         public BookController(IBookRepository bookRepository,
+                                IBookUserRepository bookUserRepository,
                                 ICategoryRepository categoryRepository,
                                 IHostEnvironment hostEnvironment,
                                 IDataProtectionProvider dataProtectionProvider,
@@ -40,6 +42,7 @@ namespace BookStore.Controllers
             this.hostEnvironment = hostEnvironment;
             dataProtector = dataProtectionProvider.CreateProtector(dataProtectionPurposeStrings.EmployeeIdRouteValue);
             this.userManager = userManager;
+            this.bookUserRepository = bookUserRepository;
         }
 
         [Route("Admin/Books")]
@@ -239,6 +242,15 @@ namespace BookStore.Controllers
                 BookUser = bookUser
             };
 
+            var getOrderdBook = bookUserRepository.Find(bookUser.BookId, bookUser.UserId);
+            if (getOrderdBook == null)
+            {
+                viewModel.IsReserved = false;
+            }
+            else {
+                viewModel.IsReserved = true;
+            }
+
             return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
         }
 
@@ -247,11 +259,42 @@ namespace BookStore.Controllers
         [AllowAnonymous]
         public IActionResult SetReservation(string id, BookUser bookUser)
         {
-            if (ModelState.IsValid) { 
-            
+            if (ModelState.IsValid) {
+                var viewModelValid = GetDisplayBookDetailsViewModel(bookUser);
+                var getOrderdBook = bookUserRepository.Find(bookUser.BookId, bookUser.UserId);
+
+                if (getOrderdBook == null)
+                {
+                    bookUserRepository.Add(bookUser);
+                    ViewBag.Title = "Book reserved successfully";
+                    ViewBag.Message = $"Book {viewModelValid.Book.Title} is successfully reserved. You can visit library to pick it up.";
+                    return View("Views/Home/Message.cshtml");
+                }
+                else {
+                    ViewBag.Title = "Already reserved book";
+                    ViewBag.Message = $"Book {viewModelValid.Book.Title} is already reserved. You can visit library to pick it up.";
+                    return View("Views/Home/Message.cshtml");
+                }
+                
+                
             }
 
-            return View("Views/Book/DisplayBookDetails.cshtml", viewModel);
+            var viewModelNotValid = GetDisplayBookDetailsViewModel(bookUser);
+
+            return View("Views/Book/DisplayBookDetails.cshtml", viewModelNotValid);
+        }
+
+        public DisplayBookDetailsViewModel GetDisplayBookDetailsViewModel(BookUser bookUser) {
+            GetBookDto book = bookRepository.GetBookDetails(bookUser.BookId);
+            Category category = categoryRepository.GetCategory(book.CategoryId);
+            DisplayBookDetailsViewModel viewModel = new DisplayBookDetailsViewModel
+            {
+                Book = book,
+                Category = category,
+                BookUser = bookUser
+            };
+
+            return viewModel;
         }
     }
 }
