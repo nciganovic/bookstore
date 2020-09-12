@@ -8,6 +8,30 @@
 
 <div class="container">
     <h1 class="text-center m-5">Welcome to @ViewBag.Title</h1>
+    <div class="row d-flex justify-content-between">
+        <div class="col-3">
+            <select class="custom-select" id="inputGroupSelect01">
+                <option selected>Select Category</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+
+        <div class="col-3 d-flex">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary" type="button">Search</button>
+        </div>
+
+        <div class="col-3 d-flex">
+            <select class="custom-select" id="inputGroupSelect01">
+                <option selected>Order by name:</option>
+                <option value="1">Acsending</option>
+                <option value="2">Decsending</option>
+            </select>
+        </div>
+    </div>
+
     <div class="row d-flex justify-content-around">
 
         @foreach (var book in Model)
