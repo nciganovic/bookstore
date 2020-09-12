@@ -13,5 +13,6 @@ namespace BookStore.ViewModels
         public GetBookDto Book { get; set; }
         public Category Category { get; set; }
         public BookUser BookUser { get; set; }
+        public bool IsReserved { get; set; }
     }
 }
