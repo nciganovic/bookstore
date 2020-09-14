@@ -43,7 +43,7 @@ namespace BookStore.Controllers
         [Route("[action]")]
         public ViewResult Index()
         {
-            IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(12).Select(x => {
+            IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(6).Select(x => {
                 x.EncryptedId = dataProtector.Protect(x.Id.ToString());
                 return x;
             });
