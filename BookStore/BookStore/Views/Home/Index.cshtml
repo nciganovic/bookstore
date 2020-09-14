@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetBookDto>
+﻿@model HomeIndexViewModel
 
 @{
     ViewBag.Title = "Belgrade Library";
@@ -12,9 +12,9 @@
         <div class="col-3">
             <select class="custom-select" id="inputGroupSelect01">
                 <option selected>Select Category</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                @foreach (var category in Model.Categories) { 
+                    <option value="@category.Id">@category.Name</option>
+                }
             </select>
         </div>
 
@@ -34,7 +34,7 @@
 
     <div class="row d-flex justify-content-around">
 
-        @foreach (var book in Model)
+        @foreach (var book in Model.NewestBooks)
         {
 
             <div class="card col-3 p-0 ml-2 mr-2 mt-5" style="width: 18rem;">
