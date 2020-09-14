@@ -2,6 +2,7 @@
     $("#all-categories").change(function () {
         var id = $(this).val();
         console.log(id);
+        $("#message").html("");
         
         $.ajax({
             url: "books/category",
@@ -19,6 +20,35 @@
             }
         });
 
+    });
+
+    $("#search-button").click(function () {
+        var search = $("#search-text").val().trim();
+
+        if (search != "") {
+            $.ajax({
+                url: "books/search",
+                method: "get",
+                dataType: "json",
+                data: {
+                    search: search
+                },
+                success: function (data) {
+                    if (data.value.length == 0) {
+                        $("#message").html(`<p class='text-center mt-3 mb-3'>'${search}' not found.`);
+                    }
+                    else {
+                        $("#message").html(`<p class='text-center mt-3 mb-3'>Results of search '${search}'`);
+                    }
+                    DisplayBooksInHTML(data.value);
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+        
     });
 
     function DisplayBooksInHTML(data) {

@@ -17,5 +17,6 @@ namespace BookStore.Models.InterfaceRepo
         public IEnumerable<GetBookDto> GetNewestBooks(int count);
         public GetBookDto GetBookDetails(int id);
         public IEnumerable<GetBookDto> GetBooksByCategory(int categoryId);
+        public IEnumerable<GetBookDto> SearchBooks(string search);
     }
 }

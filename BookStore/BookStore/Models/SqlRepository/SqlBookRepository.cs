@@ -123,5 +123,25 @@ namespace BookStore.Models.SqlRepository
             
             
         }
+
+        public IEnumerable<GetBookDto> SearchBooks(string search)
+        {
+            var books = context.Books.Where(x => x.Title.Contains(search));
+
+            var data = books.Select(x => new GetBookDto
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                CategoryName = x.Category.Name,
+                DatePublished = x.DatePublished,
+                PageCount = x.PageCount,
+                Price = x.Price,
+                Title = x.Title,
+                PhotoName = x.PhotoName
+
+            }).OrderByDescending(x => x.DatePublished).ToList();
+
+            return data;
+        }
     }
 }

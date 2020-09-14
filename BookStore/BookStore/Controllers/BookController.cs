@@ -309,5 +309,18 @@ namespace BookStore.Controllers
 
             return Ok(Json(books));
         }
+
+        [HttpGet]
+        [Route("books/search")]
+        [AllowAnonymous]
+        public IActionResult GetBooksByCategory(string search)
+        {
+            IEnumerable<GetBookDto> books = bookRepository.SearchBooks(search).Select(x => {
+                x.EncryptedId = dataProtector.Protect(x.Id.ToString());
+                return x;
+            });
+
+            return Ok(Json(books));
+        }
     }
 }

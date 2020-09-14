@@ -20,8 +20,8 @@
         </div>
 
         <div class="col-3 d-flex">
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-primary" type="button">Search</button>
+            <input id="search-text" class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <button id="search-button" class="btn btn-primary" type="button">Search</button>
         </div>
 
         <div class="col-3 d-flex">
@@ -32,7 +32,7 @@
             </select>
         </div>
     </div>
-
+    <div id="message"></div>
     <div id="book-section" class="row d-flex justify-content-around">
 
         @foreach (var book in Model.NewestBooks)
