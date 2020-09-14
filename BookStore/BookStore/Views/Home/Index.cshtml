@@ -10,9 +10,10 @@
     <h1 class="text-center m-5">Welcome to @ViewBag.Title</h1>
     <div class="row d-flex justify-content-between">
         <div class="col-3">
-            <select class="custom-select" id="inputGroupSelect01">
+            <select class="custom-select" id="all-categories">
                 <option selected>Select Category</option>
-                @foreach (var category in Model.Categories) { 
+                @foreach (var category in Model.Categories)
+                {
                     <option value="@category.Id">@category.Name</option>
                 }
             </select>
@@ -58,3 +59,4 @@
 
     </div>
 </div>
+<script src="~/js/HomeIndex.js"></script>
