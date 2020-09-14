@@ -296,5 +296,18 @@ namespace BookStore.Controllers
 
             return viewModel;
         }
+
+        [HttpGet]
+        [Route("books/category")]
+        [AllowAnonymous]
+        public IActionResult GetBooksByCategory(int id)
+        {
+            IEnumerable<GetBookDto> books = bookRepository.GetBooksByCategory(id).Select(x => {
+                x.EncryptedId = dataProtector.Protect(x.Id.ToString());
+                return x;
+            });
+
+            return Ok(Json(books));
+        }
     }
 }

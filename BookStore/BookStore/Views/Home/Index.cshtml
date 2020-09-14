@@ -11,7 +11,7 @@
     <div class="row d-flex justify-content-between">
         <div class="col-3">
             <select class="custom-select" id="all-categories">
-                <option selected>Select Category</option>
+                <option value="0" selected>Select Category</option>
                 @foreach (var category in Model.Categories)
                 {
                     <option value="@category.Id">@category.Name</option>
@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="row d-flex justify-content-around">
+    <div id="book-section" class="row d-flex justify-content-around">
 
         @foreach (var book in Model.NewestBooks)
         {

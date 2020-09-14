@@ -101,5 +101,27 @@ namespace BookStore.Models.SqlRepository
             context.SaveChanges();
             return book;
         }
+
+        public IEnumerable<GetBookDto> GetBooksByCategory(int categoryId)
+        {
+            var books = context.Books.Where(x => x.CategoryId == categoryId);
+
+            var data = books.Select(x => new GetBookDto
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                CategoryName = x.Category.Name,
+                DatePublished = x.DatePublished,
+                PageCount = x.PageCount,
+                Price = x.Price,
+                Title = x.Title,
+                PhotoName = x.PhotoName
+
+            }).OrderByDescending(x => x.DatePublished).ToList();
+
+            return data;
+            
+            
+        }
     }
 }
