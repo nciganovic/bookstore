@@ -5,7 +5,7 @@
         $("#message").html("");
         
         $.ajax({
-            url: "books/category",
+            url: "https://localhost:44396/books/category",
             method: "get",
             dataType: "json",
             data: {
@@ -28,7 +28,7 @@
 
         if (search != "") {
             $.ajax({
-                url: "books/search",
+                url: "/books/search",
                 method: "get",
                 dataType: "json",
                 data: {
@@ -59,7 +59,7 @@
     $("#load-more").click(function () {
 
         $.ajax({
-            url: "books/loadmore",
+            url: "/books/loadmore",
             method: "get",
             dataType: "json",
             data: {
