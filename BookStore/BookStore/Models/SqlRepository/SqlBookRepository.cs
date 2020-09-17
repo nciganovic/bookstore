@@ -120,8 +120,7 @@ namespace BookStore.Models.SqlRepository
             }).OrderByDescending(x => x.DatePublished).ToList();
 
             return data;
-            
-            
+
         }
 
         public IEnumerable<GetBookDto> SearchBooks(string search)
@@ -140,6 +139,24 @@ namespace BookStore.Models.SqlRepository
                 PhotoName = x.PhotoName
 
             }).OrderByDescending(x => x.DatePublished).ToList();
+
+            return data;
+        }
+
+        public IEnumerable<GetBookDto> GetNewestBooks(int skip, int take)
+        {
+            var data = context.Books.Select(x => new GetBookDto
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                CategoryName = x.Category.Name,
+                DatePublished = x.DatePublished,
+                PageCount = x.PageCount,
+                Price = x.Price,
+                Title = x.Title,
+                PhotoName = x.PhotoName
+
+            }).Skip(skip).Take(take).OrderByDescending(x => x.DatePublished).ToList();
 
             return data;
         }

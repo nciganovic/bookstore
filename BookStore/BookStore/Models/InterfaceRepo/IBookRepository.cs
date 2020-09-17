@@ -15,6 +15,7 @@ namespace BookStore.Models.InterfaceRepo
         public Book Delete(int id);
         public IEnumerable<GetBookDto> GetAllBooks();
         public IEnumerable<GetBookDto> GetNewestBooks(int count);
+        public IEnumerable<GetBookDto> GetNewestBooks(int skip, int take);
         public GetBookDto GetBookDetails(int id);
         public IEnumerable<GetBookDto> GetBooksByCategory(int categoryId);
         public IEnumerable<GetBookDto> SearchBooks(string search);

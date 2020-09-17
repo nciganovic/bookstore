@@ -322,5 +322,17 @@ namespace BookStore.Controllers
 
             return Ok(Json(books));
         }
+
+        [HttpGet]
+        [Route("books/loadmore")]
+        [AllowAnonymous]
+        public IActionResult LoadMoreBooks(int skip, int take) {
+            IEnumerable<GetBookDto> books = bookRepository.GetNewestBooks(skip, take).Select(x => {
+                x.EncryptedId = dataProtector.Protect(x.Id.ToString());
+                return x;
+            });
+
+            return Ok(Json(books));
+        }
     }
 }

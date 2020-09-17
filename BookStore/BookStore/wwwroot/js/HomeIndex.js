@@ -53,6 +53,39 @@
         
     });
 
+    var skip = 6;
+    const take = 3;
+
+    $("#load-more").click(function () {
+
+        $.ajax({
+            url: "books/loadmore",
+            method: "get",
+            dataType: "json",
+            data: {
+                 take: take,
+                 skip: skip,
+             },
+            success: function (data) {
+                if (data.value.length == 0) {
+                    $("#load-more").text("You reached the end");
+                }
+                else {
+                    var html = BooksInHTML(data.value);
+                    $("#book-section-more").html(html);
+                    skip += take;
+                }
+              
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+
+        console.log(skip);
+    });
+
     function BooksInHTML(data) {
         var html = "";
         for (d of data) {
