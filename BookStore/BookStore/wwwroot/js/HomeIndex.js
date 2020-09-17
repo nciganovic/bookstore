@@ -12,7 +12,8 @@
                 id: id
             },
             success: function (data) {
-                DisplayBooksInHTML(data.value);
+                var html = BooksInHTML(data.value);
+                $("#book-section").html(html);
                 console.log(data.value);
             },
             error: function (data) {
@@ -40,7 +41,8 @@
                     else {
                         $("#message").html(`<p class='text-center mt-3 mb-3'>Results of search '${search}'`);
                     }
-                    DisplayBooksInHTML(data.value);
+                    var html = BooksInHTML(data.value);
+                    $("#book-section").html(html);
                     console.log(data);
                 },
                 error: function (data) {
@@ -51,7 +53,7 @@
         
     });
 
-    function DisplayBooksInHTML(data) {
+    function BooksInHTML(data) {
         var html = "";
         for (d of data) {
             html += `<div class="card col-3 p-0 ml-2 mr-2 mt-5" style="width: 18rem;">
@@ -71,6 +73,6 @@
                 </div> `;
         }
 
-        $("#book-section").html(html);
+        return html;
     }
 });
