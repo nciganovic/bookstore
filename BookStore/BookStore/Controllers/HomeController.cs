@@ -39,8 +39,6 @@ namespace BookStore.Controllers
         }
 
         [Route("/")]
-        [Route("~/Home")]
-        [Route("[action]")]
         public ViewResult Index()
         {
             IEnumerable<GetBookDto> newestBooks = bookRepository.GetNewestBooks(6).Select(x => {
