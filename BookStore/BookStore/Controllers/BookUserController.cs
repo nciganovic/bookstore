@@ -22,7 +22,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [Route("Reservations/All/{username}")]
+        [Route("BookUser/DisplayAllReservations/{username}")]
         public async Task<IActionResult> DisplayAllReservations(string username)
         {
             List<GetBookUserDto> currentReservationList = new List<GetBookUserDto>();
