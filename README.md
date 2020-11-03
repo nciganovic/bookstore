@@ -29,3 +29,13 @@ Focus of this project was to learn how ASP.NET Core works. Online Library is a w
 * Upload image of a book as Administrator
 * Error handling
 * Adding roles to users
+
+## Requierments
+* .NET Core 3.1 
+* Microsoft SQL Server
+* ***You can get both of theese by downloading Visual Studio Community Edition and Installing ASP.NET web development workload***
+
+## Usage
+1. Clone project
+2. Run Update-Database Command
+3. Run project
